@@ -35,8 +35,9 @@ public class Ventana extends JFrame{
      * Inicializa los elementos que contendra la ventana
      */
     private void init(){
-        setSize(600,400);
+        setSize(800,600);
         setTitle("Herramienta Imprenta");
+        setLocationRelativeTo(null);
         
         Container c = getContentPane();
         c.setLayout(new BorderLayout());

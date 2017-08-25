@@ -6,6 +6,7 @@
 package caligrafia;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
@@ -43,14 +44,19 @@ public class PanelTexto extends JPanel{
        //     this.letras[i].setLetra(this.palabra.charAt(i));
         }
         
-        cargarLetras();
+     //   cargarLetras();
     }
     
     @Override
     public void paint(Graphics g){
         g.setColor(Color.red);
         g.drawRect(40, 60, 100,100);
-    
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 26));
+       // g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize)); 
+        g.drawString("La idea está", 100, 200);
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 106));
+        g.drawString("A", 45, 150);
     }
 
     /**
