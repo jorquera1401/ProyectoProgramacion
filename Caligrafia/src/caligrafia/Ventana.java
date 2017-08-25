@@ -20,9 +20,9 @@ import javax.swing.*;
 public class Ventana extends JFrame{
     
     private PanelTexto panelTexto;
-    private JButton ejecutar_btn;
-    private JTextField texto_txt;
-    private JPanel herramientas_panel;
+    private JButton ejecutarBtn;
+    private JTextField textoTxt;
+    private JPanel herramientasPanel;
     
     
     public Ventana(){
@@ -40,29 +40,29 @@ public class Ventana extends JFrame{
         
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
-        this.texto_txt = new JTextField();
-        this.ejecutar_btn = new JButton("Ejecutar");
-        this.herramientas_panel = new JPanel();
-        this.herramientas_panel.setLayout(new GridLayout(1,2));
-        this.herramientas_panel.add(this.texto_txt);
-        this.herramientas_panel.add(this.ejecutar_btn);
+        this.textoTxt = new JTextField();
+        this.ejecutarBtn = new JButton("Ejecutar");
+        this.herramientasPanel = new JPanel();
+        this.herramientasPanel.setLayout(new GridLayout(1,2));
+        this.herramientasPanel.add(this.textoTxt);
+        this.herramientasPanel.add(this.ejecutarBtn);
         
         this.panelTexto = new PanelTexto();
         
         this.panelTexto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.herramientas_panel.setBorder(BorderFactory.createLineBorder(Color.yellow));
+        this.herramientasPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
         
         c.add(this.panelTexto,BorderLayout.CENTER);
-        c.add(this.herramientas_panel,BorderLayout.SOUTH);
+        c.add(this.herramientasPanel,BorderLayout.SOUTH);
         
         
     }
     
     private void acciones(){
-        this.ejecutar_btn.addActionListener(new ActionListener() {
+        this.ejecutarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelTexto.setPalabra(texto_txt.getText());
+                panelTexto.setPalabra(textoTxt.getText());
                 panelTexto.separarLetras();
                 repaint();
             
