@@ -21,6 +21,7 @@ public class PanelTexto extends JPanel{
     private Letra[] letras;
     
     public PanelTexto(){
+        this.palabra="";
        
     }
     
@@ -30,7 +31,6 @@ public class PanelTexto extends JPanel{
         for(int i=0;i<this.letras.length;i++){
             this.add(letras[i]);
         }
-        System.out.println("Hay "+this.palabra.length()+" eleemntos");
         
     }
     
@@ -53,10 +53,11 @@ public class PanelTexto extends JPanel{
         g.drawRect(40, 60, 100,100);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 26));
        // g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize)); 
-        g.drawString("La idea está", 100, 200);
+        g.drawString(this.palabra, 100, 200);
         
         g.setFont(new Font("TimesRoman", Font.PLAIN, 106));
-        g.drawString("A", 45, 150);
+        g.drawString("a", 45, 150);
+        
     }
 
     /**
