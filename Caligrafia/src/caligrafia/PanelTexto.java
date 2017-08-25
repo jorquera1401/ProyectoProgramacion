@@ -50,13 +50,24 @@ public class PanelTexto extends JPanel{
     @Override
     public void paint(Graphics g){
         g.setColor(Color.red);
-        g.drawRect(40, 60, 100,100);
+       // g.drawRect(40, 60, 100,100);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 26));
        // g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize)); 
-        g.drawString(this.palabra, 100, 200);
+   //     g.drawString(this.palabra, 100, 200);
         
         g.setFont(new Font("TimesRoman", Font.PLAIN, 106));
-        g.drawString("a", 45, 150);
+        
+    //    g.drawString("a", 45, 150);
+        if(this.palabra.equals("a")){
+            g.drawLine(200, 10, 20, 100);
+            g.drawLine(200, 10, 380, 100);
+            g.drawLine(100, 60, 300, 60);
+            
+        }
+        if(this.palabra.equals("b")){
+            g.drawLine(50, 10, 50, 200);
+            g.drawOval(50,150,100,100);
+        }
         
     }
 
