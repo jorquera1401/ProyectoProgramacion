@@ -8,7 +8,10 @@ package caligrafia;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.geom.QuadCurve2D;
+import javafx.scene.shape.QuadCurve;
 import javax.swing.JPanel;
 
 /**
@@ -32,6 +35,7 @@ public class PanelTexto extends JPanel{
             this.add(letras[i]);
         }
         
+        
     }
     
     /**
@@ -39,12 +43,16 @@ public class PanelTexto extends JPanel{
      */
     public void separarLetras(){
         this.letras=new Letra[this.palabra.length()];
+        char letra;
         for(int  i=0;i<this.palabra.length();i++){
+            
+            letra = this.palabra.charAt(i);
+            this.letras[i]= new Letra(letra);
             System.out.println(palabra.charAt(i));
-       //     this.letras[i].setLetra(this.palabra.charAt(i));
         }
         
-     //   cargarLetras();
+        cargarLetras();
+        repaint();
     }
     
     @Override
@@ -68,6 +76,11 @@ public class PanelTexto extends JPanel{
             g.drawLine(50, 10, 50, 200);
             g.drawOval(50,150,100,100);
         }
+        
+        Graphics2D g2 = (Graphics2D) g;
+        
+        QuadCurve2D q2d = new QuadCurve2D.Float();
+        q2d.setCurve(10, 10, 2, 6, 100, 100);
         
     }
 
