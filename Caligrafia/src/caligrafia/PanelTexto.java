@@ -8,7 +8,10 @@ package caligrafia;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.QuadCurve2D;
 import javax.swing.JPanel;
 
 /**
@@ -68,7 +71,20 @@ public class PanelTexto extends JPanel{
             g.drawLine(50, 10, 50, 200);
             g.drawOval(50,150,100,100);
         }
+        //Casteo
+        Graphics2D g2 = (Graphics2D) g;
+        //Se crea un objeto de la clase QuadCurve2D
+        QuadCurve2D q = new QuadCurve2D.Float();
+        //Se setean los puntos de control
+        q.setCurve(100, 100, 300, 300, 100, 300);
+        //Se dibuja el shape
+        g2.draw(q);
         
+        // create new CubicCurve2D.Double
+        CubicCurve2D c = new CubicCurve2D.Double();
+        //draw CubicCurve2D.Double with set coordinates
+        c.setCurve(200, 200, 250, 50, 300, 500, 400, 200);
+        g2.draw(c);                
     }
 
     /**
