@@ -10,7 +10,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.QuadCurve2D;
 import javax.swing.JPanel;
 
@@ -83,8 +85,15 @@ public class PanelTexto extends JPanel{
         // create new CubicCurve2D.Double
         CubicCurve2D c = new CubicCurve2D.Double();
         //draw CubicCurve2D.Double with set coordinates
-        c.setCurve(200, 200, 250, 50, 300, 500, 400, 200);
-        g2.draw(c);                
+        c.setCurve(200, 200, 400, 50, 300, 500, 500, 200);
+        g2.draw(c);           
+        
+        // draw Ellipse2D.Double
+        g2.draw(new Ellipse2D.Double(400, 400, 100, 50));
+        
+        // draw Arc2D.Double
+        g2.draw(new Arc2D.Double(50, 50, 100, 50, 100, 135, Arc2D.OPEN));
+
     }
 
     /**
