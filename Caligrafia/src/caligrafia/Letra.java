@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
 import javafx.scene.shape.Shape;
+import java.awt.geom.QuadCurve2D;
 import javax.swing.*;
 
 /**
