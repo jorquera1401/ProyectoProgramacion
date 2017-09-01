@@ -83,13 +83,13 @@ public class PanelTexto extends JPanel{
         q.setCurve(100, 100, 300, 300, 100, 300);
         //Se dibuja el shape
         g2.draw(q);
-        
+        */
         // create new CubicCurve2D.Double
-        CubicCurve2D c = new CubicCurve2D.Double();
+        //CubicCurve2D c = new CubicCurve2D.Double();
         //draw CubicCurve2D.Double with set coordinates
-        c.setCurve(200, 200, 400, 50, 300, 500, 500, 200);
-        g2.draw(c);           
-        
+        //c.setCurve(0, 3, 30, 7, 14, 17, 2, 20);
+        //g2.draw(c);           
+        /*
         // draw Ellipse2D.Double
         g2.draw(new Ellipse2D.Double(400, 400, 100, 50));
         
@@ -124,7 +124,5 @@ public class PanelTexto extends JPanel{
      */
     public void setPalabra(String palabra) {
         this.palabra = palabra;
-    }
-
-    
+    }    
 }
