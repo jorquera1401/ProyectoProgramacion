@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import javax.swing.JPanel;
 
@@ -55,14 +56,14 @@ public class PanelTexto extends JPanel{
     @Override
     public void paint(Graphics g){
         g.setColor(Color.red);
-       // g.drawRect(40, 60, 100,100);
+        // g.drawRect(40, 60, 100,100);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 26));
-       // g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize)); 
-   //     g.drawString(this.palabra, 100, 200);
+        // g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize)); 
+        //     g.drawString(this.palabra, 100, 200);
         
         g.setFont(new Font("TimesRoman", Font.PLAIN, 106));
         
-    //    g.drawString("a", 45, 150);
+        //    g.drawString("a", 45, 150);
         if(this.palabra.equals("a")){
             g.drawLine(200, 10, 20, 100);
             g.drawLine(200, 10, 380, 100);
@@ -75,6 +76,7 @@ public class PanelTexto extends JPanel{
         }
         //Casteo
         Graphics2D g2 = (Graphics2D) g;
+        /*
         //Se crea un objeto de la clase QuadCurve2D
         QuadCurve2D q = new QuadCurve2D.Float();
         //Se setean los puntos de control
@@ -93,7 +95,21 @@ public class PanelTexto extends JPanel{
         
         // draw Arc2D.Double
         g2.draw(new Arc2D.Double(50, 50, 100, 50, 100, 135, Arc2D.OPEN));
-
+        // draw Line2D.Double
+            g2.draw(new Line2D.Double(100, 400, 180, 370));
+        */
+        if(this.palabra.equals("f")){
+            QuadCurve2D q = new QuadCurve2D.Float();
+            //Se setean los puntos de control
+            q.setCurve(110, 500, 160, 30, 210, 250);
+            // create new CubicCurve2D.Double
+            CubicCurve2D c = new CubicCurve2D.Double();
+            //draw CubicCurve2D.Double with set coordinates
+            c.setCurve(80, 370, 120, 320, 150, 380, 180, 340);
+            g2.draw(c);
+            //Se dibuja el shape
+            g2.draw(q);
+        }
     }
 
     /**
