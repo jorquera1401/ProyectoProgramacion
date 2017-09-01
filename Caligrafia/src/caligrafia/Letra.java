@@ -8,7 +8,9 @@ package caligrafia;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
+import javafx.scene.shape.Shape;
 import javax.swing.*;
 
 /**
@@ -18,30 +20,35 @@ import javax.swing.*;
 public class Letra extends JPanel{
     
     private char letra;
-    private int[][] posicionPuntos;
-    private double x,y,height,width;
+   private double x,y,height,width;
     
     public Letra(char letra){
-        this.posicionPuntos = new int[10][10];
+        this.letra=letra;
         x=0;
         y=0;
-        height=this.getHeight();
-        width=this.getWidth();
     }
     
     
     public void generarPUntos(){
-       
+        System.out.println("x: "+x+" y:"+y+" width:"+this.width+" height: "+this.height);
     }
     
     @Override
     public void paint(Graphics g){
+        this.height=this.getHeight();
+        this.width=this.getWidth();
         g.setColor(Color.red);
-        g.fillRect(0, 0, 10, 10);
-        g.drawRect(0, 0, this.getWidth(), this.getHeight());
+ //       g.fillRect(0, 0, 10, 10);
         Graphics2D g2d = (Graphics2D) g;
+        
         QuadCurve2D q2 = new QuadCurve2D.Float();
-        q2.setCurve(x, y,height ,width, x, y);
+        q2.setCurve(10,50,60,1,100,50);
+        g2d.draw(q2);
+        q2.setCurve(10, 50, 120, 1, 100, 50);
+        g2d.draw(q2);
+        
+        g.drawRect(0, 0, getWidth(), getHeight());
+       
     }
 
     /**

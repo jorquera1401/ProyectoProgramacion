@@ -12,6 +12,11 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.geom.QuadCurve2D;
 import javafx.scene.shape.QuadCurve;
+import java.awt.geom.Arc2D;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.QuadCurve2D;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -30,10 +35,13 @@ public class PanelTexto extends JPanel{
     
     //carga las letras al panel 
     public  void cargarLetras(){
+        this.removeAll();
         setLayout(new GridLayout(1, this.palabra.length()));
         for(int i=0;i<this.letras.length;i++){
-            this.add(letras[i]);
+              this.add(this.letras[i]);
+              System.out.println(this.letras[i].getWidth());
         }
+        this.validate();
         
         
     }
@@ -48,13 +56,12 @@ public class PanelTexto extends JPanel{
             
             letra = this.palabra.charAt(i);
             this.letras[i]= new Letra(letra);
-            System.out.println(palabra.charAt(i));
+         //   System.out.println(palabra.charAt(i));
         }
         
         cargarLetras();
-        repaint();
     }
-    
+    /*
     @Override
     public void paint(Graphics g){
         g.setColor(Color.red);
@@ -76,12 +83,31 @@ public class PanelTexto extends JPanel{
             g.drawLine(50, 10, 50, 200);
             g.drawOval(50,150,100,100);
         }
-        
+        //Casteo
         Graphics2D g2 = (Graphics2D) g;
+        //Se crea un objeto de la clase QuadCurve2D
+        QuadCurve2D q = new QuadCurve2D.Float();
+        //Se setean los puntos de control
+        q.setCurve(100, 100, 300, 300, 100, 300);
+        //Se dibuja el shape
+        g2.draw(q);
+        
+        //Graphics2D g2 = (Graphics2D) g;
         
         QuadCurve2D q2d = new QuadCurve2D.Float();
         q2d.setCurve(10, 10, 2, 6, 100, 100);
+        // create new CubicCurve2D.Double
+        CubicCurve2D c = new CubicCurve2D.Double();
+        //draw CubicCurve2D.Double with set coordinates
+        c.setCurve(200, 200, 400, 50, 300, 500, 500, 200);
+        g2.draw(c);           
         
+        // draw Ellipse2D.Double
+        g2.draw(new Ellipse2D.Double(400, 400, 100, 50));
+        
+        // draw Arc2D.Double
+        g2.draw(new Arc2D.Double(50, 50, 100, 50, 100, 135, Arc2D.OPEN));
+
     }
 
     /**
