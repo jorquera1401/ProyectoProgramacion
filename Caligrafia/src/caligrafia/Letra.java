@@ -6,31 +6,10 @@
 package caligrafia;
 
 import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
-import javafx.scene.shape.Shape;
-import java.awt.geom.QuadCurve2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.text.AttributedCharacterIterator;
-import java.util.Map;
 import javax.swing.*;
 
 /**
@@ -87,16 +66,26 @@ public class Letra extends JPanel{
             case 'a':
                 qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
                 g2.draw(qc);
-                
+                break;
             case 'b':
-                
-                
+                c.setCurve(this.dx+(this.ancho/10), this.dy, 
+                        this.dx, this.alto/4, 
+                        this.dx+(2*(this.ancho/10)), this.alto-(this.alto/4), 
+                        this.dx+(this.ancho/10), this.alto);
+                g2.draw(c);
+                c.setCurve(dx, dx, 
+                        dx, dx,
+                        dx, dx,
+                        dx, dx);
+                g2.draw(c);
+                break;
             case 'f':
                 qc.setCurve(this.dx+10, this.alto, this.alto/2, this.dy, this.ancho*(0.66), this.alto/10);
                 g2.draw(qc);
                 
                 c.setCurve(80, 370, 120, 320, 150, 380, 180, 340);
                 g2.draw(c);
+                break;
         }
         
     }
