@@ -31,7 +31,7 @@ public class Letra extends JPanel{
     
     
     public void generarPUntos(){
-        System.out.println("x: "+x+" y:"+y+" width:"+this.width+" height: "+this.height);
+        
     }
     
     @Override
@@ -43,7 +43,7 @@ public class Letra extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         
         QuadCurve2D q2 = new QuadCurve2D.Float();
-        q2.setCurve(10,50,60,1,100,50);
+        q2.setCurve(10,50,60,1,this.width,this.height);
         g2d.draw(q2);
         q2.setCurve(10, 50, 120, 1, 100, 50);
         g2d.draw(q2);
