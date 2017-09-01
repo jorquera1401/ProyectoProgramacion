@@ -19,13 +19,12 @@ import javax.swing.*;
 public class Letra extends JPanel{
     
     private char letra;
-   private double dx,dy,alto,ancho;
+    private double dx;
+    private double dy; 
+    private double alto;
+    private double ancho;
     private double[] puntos;
-    public Letra(char letra){
-        this.letra=letra;
-        dx=0;
-        dy=0;
-    }
+    
     public Letra(char letra, double ancho, double alto){
         this.letra=letra;
         this.dx=0;
