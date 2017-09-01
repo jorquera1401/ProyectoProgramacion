@@ -40,31 +40,36 @@ public class PanelTexto extends JPanel{
         this.palabra="";
        
     }
-    
-    //carga las letras al panel 
+    /*
+    /   Remueve el panel principal y lo transforma en gridlayout, de tamanaño del 
+        largo del panel
+    */
     public  void cargarLetras(){
         this.removeAll();
         setLayout(new GridLayout(1, this.palabra.length()));
+        
         for(int i=0;i<this.letras.length;i++){
               this.add(this.letras[i]);
-              this.letras[i].generarPUntos();
         }
         this.validate();
-        
         
     }
     
     /**
      * separa cada una de las letras que contiene la palabra ingresada
+     * A cada panel de letra se asigna su ancho y alto respectivo
      */
     public void separarLetras(){
         this.letras=new Letra[this.palabra.length()];
         char letra;
+        double alto, ancho;
+        ancho = this.getWidth()/this.palabra.length();
+        alto  =this.getHeight()/this.palabra.length();
+        
         for(int  i=0;i<this.palabra.length();i++){
             
             letra = this.palabra.charAt(i);
-            this.letras[i]= new Letra(letra);
-         //   System.out.println(palabra.charAt(i));
+            this.letras[i]= new Letra(letra,ancho,alto);
         }
         
         cargarLetras();
