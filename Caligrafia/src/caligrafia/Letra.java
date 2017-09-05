@@ -32,23 +32,7 @@ public class Letra extends JPanel{
         this.alto=alto;
         this.ancho=ancho;
         
-    }
-    
-    
-    public void generarPUntos(){
-        switch(letra){
-            case 'a':
-                
-            case 'b':
-                
-            case 'c':
-           
-            
-                
-        }
-    }
-    
-   
+    }        
     
     @Override
     public void paint(Graphics g){
@@ -67,22 +51,23 @@ public class Letra extends JPanel{
                 g2.draw(qc);
                 break;
             case 'b':
-                c.setCurve(this.dx+(this.ancho/10), this.dy, 
+                c.setCurve(this.dx+(this.ancho/15), this.dy, 
                         this.dx, this.alto/4, 
-                        this.dx+(2*(this.ancho/10)), this.alto-(this.alto/4), 
+                        this.dx+(2*(this.ancho/15)), this.alto-(this.alto/4), 
                         this.dx+(this.ancho/10), this.alto);
                 g2.draw(c);
-                c.setCurve(dx, dx, 
-                        dx, dx,
-                        dx, dx,
-                        dx, dx);
+                c.setCurve(this.dx+(this.ancho/15), this.alto/2, 
+                        this.ancho/2, this.alto/4,
+                        this.ancho/2, this.alto-(this.alto/4),
+                        this.dx+(this.ancho/10), this.alto);
                 g2.draw(c);
                 break;
             case 'f':
-                qc.setCurve(this.dx+10, this.alto, this.alto/2, this.dy, this.ancho*(0.66), this.alto/10);
+                qc.setCurve(this.dx+10, this.alto, this.alto/7, this.dy, this.ancho/5, this.alto/10);
                 g2.draw(qc);
                 
-                c.setCurve(80, 370, 120, 320, 150, 380, 180, 340);
+                //c.setCurve(80, 370, 120, 320, 150, 380, 180, 340);
+                c.setCurve(this.dx, this.alto/2, this.ancho/4, this.alto/3, this.ancho/4, this.alto/3, this.dx+(this.ancho/4), this.alto/2);
                 g2.draw(c);
                 break;
         }

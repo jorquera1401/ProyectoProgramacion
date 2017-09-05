@@ -5,7 +5,12 @@
  */
 package caligrafia;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.QuadCurve2D;
 import javax.swing.JPanel;
 
 /**
@@ -16,10 +21,21 @@ public class PanelTexto extends JPanel{
     
     private String palabra;
     private Letra[] letras;
+    private char letra;
+    private double alto;
+    private double ancho;
+    
+    private double startx;
+    private double starty;
+    private double dx;
+    private double dy;
+    private int tamanyoLetra;
     
     public PanelTexto(){
-        this.palabra="";
-       
+        this.palabra = "";
+        this.startx = 0;
+        this.starty = 0;
+        this.tamanyoLetra = 10;
     }
     /*
     /   Remueve el panel principal y lo transforma en gridlayout, de tamanaño del 
@@ -32,8 +48,7 @@ public class PanelTexto extends JPanel{
         for(int i=0;i<this.letras.length;i++){
               this.add(this.letras[i]);
         }
-        this.validate();
-        
+        this.validate();        
     }
     
     /**
@@ -42,8 +57,7 @@ public class PanelTexto extends JPanel{
      */
     public void separarLetras(){
         this.letras=new Letra[this.palabra.length()];
-        char letra;
-        double alto, ancho;
+        
         ancho = this.getWidth()/this.palabra.length();
         alto  =this.getHeight()/this.palabra.length();
         
@@ -55,81 +69,25 @@ public class PanelTexto extends JPanel{
         
         cargarLetras();
     }
-   /*
+   
     @Override
     public void paint(Graphics g){
         g.setColor(Color.red);
-        // g.drawRect(40, 60, 100,100);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 26));
-        // g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize)); 
-        //     g.drawString(this.palabra, 100, 200);
-        
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 106));
-        
-        //    g.drawString("a", 45, 150);
-        if(this.palabra.equals("a")){
-            g.drawLine(200, 10, 20, 100);
-            g.drawLine(200, 10, 380, 100);
-            g.drawLine(100, 60, 300, 60);
-            
-        }
-        if(this.palabra.equals("b")){
-            g.drawLine(50, 10, 50, 200);
-            g.drawOval(50,150,100,100);
-        }
-        //Casteo
+ //       g.fillRect(0, 0, 10, 10);
         Graphics2D g2 = (Graphics2D) g;
-
-      //  Se crea un objeto de la clase QuadCurve2D
-        QuadCurve2D q = new QuadCurve2D.Float();
-        //Se setean los puntos de control
-        q.setCurve(100, 100, 300, 300, 100, 300);
-        //Se dibuja el shape
-        g2.draw(q);
         
-        //Graphics2D g2 = (Graphics2D) g;
-        
-        QuadCurve2D q2d = new QuadCurve2D.Float();
-        q2d.setCurve(10, 10, 2, 6, 100, 100);
-        // create new CubicCurve2D.Double
+        QuadCurve2D qc = new QuadCurve2D.Float();
         CubicCurve2D c = new CubicCurve2D.Double();
-        //draw CubicCurve2D.Double with set coordinates
-        c.setCurve(200, 200, 400, 50, 300, 500, 500, 200);
-        g2.draw(c);           
-        
-        // draw Ellipse2D.Double
-        g2.draw(new Ellipse2D.Double(400, 400, 100, 50));
-        
-        // draw Arc2D.Double
-        g2.draw(new Arc2D.Double(50, 50, 100, 50, 100, 135, Arc2D.OPEN));
-
-        // create new CubicCurve2D.Double
-        //CubicCurve2D c = new CubicCurve2D.Double();
-        //draw CubicCurve2D.Double with set coordinates
-        //c.setCurve(0, 3, 30, 7, 14, 17, 2, 20);
-        //g2.draw(c);           
-        /*
-        // draw Ellipse2D.Double
-        g2.draw(new Ellipse2D.Double(400, 400, 100, 50));
-        
-        // draw Arc2D.Double
-        g2.draw(new Arc2D.Double(50, 50, 100, 50, 100, 135, Arc2D.OPEN));
-        // draw Line2D.Double
-            g2.draw(new Line2D.Double(100, 400, 180, 370));
-       
-        if(this.palabra.equals("f")){
-            QuadCurve2D q = new QuadCurve2D.Float();
-            //Se setean los puntos de control
-            q.setCurve(110, 500, 160, 30, 210, 250);
-            // create new CubicCurve2D.Double
-            CubicCurve2D c = new CubicCurve2D.Double();
-            //draw CubicCurve2D.Double with set coordinates
-            c.setCurve(80, 370, 120, 320, 150, 380, 180, 340);
-            g2.draw(c);
-            //Se dibuja el shape
-            g2.draw(q);
+        for(int i = 0; i < this.palabra.length(); i++){
+            this.letra = this.palabra.charAt(i);
+            
+            switch(this.letra){
+                case 'a':
+                    qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
+                    g2.draw(qc);
+                    break;
+            }
         }
-
     }
 
     /**

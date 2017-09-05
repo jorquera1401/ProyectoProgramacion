@@ -63,8 +63,8 @@ public class Ventana extends JFrame{
         this.ejecutarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelTexto.setPalabra(textoTxt.getText());
-                panelTexto.separarLetras();
+                //panelTexto.setPalabra(textoTxt.getText());
+                //panelTexto.separarLetras();
                 repaint();
             
             }
