@@ -21,23 +21,23 @@ public class Letra extends JPanel{
     private char letra;
     private double dx;
     private double dy; 
-    private double alto;
-    private double ancho;
-    private double[] puntos;
+    //private double alto;
+    //private double ancho;
+    //private double[] puntos;
     
     public Letra(char letra, double ancho, double alto){
         this.letra=letra;
         this.dx=0;
         this.dy=0;
-        this.alto=alto;
-        this.ancho=ancho;
+        //this.alto=alto;
+        //this.ancho=ancho;
         
     }        
     
     @Override
     public void paint(Graphics g){
-        this.setAlto(this.getHeight());
-        this.setAncho(this.getWidth());
+        //this.setAlto(this.getHeight());
+        //this.setAncho(this.getWidth());
         g.setColor(Color.red);
  //       g.fillRect(0, 0, 10, 10);
         Graphics2D g2 = (Graphics2D) g;
@@ -45,7 +45,7 @@ public class Letra extends JPanel{
         QuadCurve2D qc = new QuadCurve2D.Float();
         CubicCurve2D c = new CubicCurve2D.Double();
         
-        switch(letra){
+        /*switch(letra){
             case 'a':
                 qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
                 g2.draw(qc);
@@ -70,66 +70,12 @@ public class Letra extends JPanel{
                 c.setCurve(this.dx, this.alto/2, this.ancho/4, this.alto/3, this.ancho/4, this.alto/3, this.dx+(this.ancho/4), this.alto/2);
                 g2.draw(c);
                 break;
-        }
+        }*/
         
     }
 
 
-    /**
-     * @return the dx
-     */
-    public double getDx() {
-        return dx;
-    }
 
-    /**
-     * @param x the dx to set
-     */
-    public void setX(double x) {
-        this.dx = x;
-    }
-
-    /**
-     * @return the dy
-     */
-    public double getDy() {
-        return dy;
-    }
-
-    /**
-     * @param y the dy to set
-     */
-    public void setY(double y) {
-        this.dy = y;
-    }
-
-    /**
-     * @return the alto
-     */
-    public double getAlto() {
-        return alto;
-    }
-
-    /**
-     * @param alto the alto to set
-     */
-    public void setAlto(double alto) {
-        this.alto = alto;
-    }
-
-    /**
-     * @return the ancho
-     */
-    public double getAncho() {
-        return ancho;
-    }
-
-    /**
-     * @param ancho the ancho to set
-     */
-    public void setAncho(double ancho) {
-        this.ancho = ancho;
-    }
     
     
     

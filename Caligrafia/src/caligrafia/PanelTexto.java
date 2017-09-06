@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 public class PanelTexto extends JPanel{
     
     private String palabra;
-    private Letra[] letras;
+    //private Letra[] letras;
     private char letra;
-    private double alto;
-    private double ancho;
+    //private double alto;
+    //private double ancho;
     //Dos coordenadas para referenciar el punto de incio de una letra.
     private double startx;
     private double starty;
@@ -36,15 +36,15 @@ public class PanelTexto extends JPanel{
     public PanelTexto(){
         this.palabra = "";
         this.startx = 0;
-        this.starty = 10;
+        this.starty = 300;
         this.dx = 0;
-        this.dy = 0;
-        this.tamanyoLetra = 10;
+        this.dy = 300;
+        this.tamanyoLetra = 50;
     }
     /*
     /   Remueve el panel principal y lo transforma en gridlayout, de tamanaño del 
         largo del panel
-    */
+    
     public  void cargarLetras(){
         this.removeAll();
         setLayout(new GridLayout(1, this.palabra.length()));
@@ -53,12 +53,12 @@ public class PanelTexto extends JPanel{
               this.add(this.letras[i]);
         }
         this.validate();        
-    }
+    }*/
     
     /**
      * separa cada una de las letras que contiene la palabra ingresada
      * A cada panel de letra se asigna su ancho y alto respectivo
-     */
+     
     public void separarLetras(){
         this.letras=new Letra[this.palabra.length()];
         
@@ -72,7 +72,7 @@ public class PanelTexto extends JPanel{
         }
         
         cargarLetras();
-    }
+    }*/
    
     @Override
     public void paint(Graphics g){
@@ -87,21 +87,23 @@ public class PanelTexto extends JPanel{
             
             switch(this.letra){
                 case 'a':
-                    qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
+                    //qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
                     g2.draw(qc);
                     break;
                 case 'b':
-                c.setCurve(this.dx+(this.ancho/15), this.dy, 
-                        this.dx, this.alto/4, 
-                        this.dx+(2*(this.ancho/15)), this.alto-(this.alto/4), 
-                        this.dx+(this.ancho/10), this.alto);
-                g2.draw(c);
-                c.setCurve(this.dx+(this.ancho/15), this.alto/2, 
-                        this.ancho/2, this.alto/4,
-                        this.ancho/2, this.alto-(this.alto/4),
-                        this.dx+(this.ancho/10), this.alto);
-                g2.draw(c);
-                break;
+                    c.setCurve(this.dx+2, this.dy-49, 
+                            this.dx, this.dy-35, 
+                            this.dx+7, this.dy-15, 
+                            this.startx, this.starty);
+                    g2.draw(c);
+                    c.setCurve(this.dx+5, this.dy-25, 
+                            this.dx+20, this.dy-20,
+                            this.dx+20, this.dy-10,
+                            this.startx, this.starty);
+                    g2.draw(c);
+                    this.dx += 20;
+                    this.startx += 20;          
+                    break;
             }
         }
     }
@@ -119,4 +121,46 @@ public class PanelTexto extends JPanel{
     public void setPalabra(String palabra) {
         this.palabra = palabra;
     }    
+
+    public double getStartx() {
+        return startx;
+    }
+
+    public void setStartx(double startx) {
+        this.startx = startx;
+    }
+
+    public double getStarty() {
+        return starty;
+    }
+
+    public void setStarty(double starty) {
+        this.starty = starty;
+    }
+
+    public double getDx() {
+        return dx;
+    }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+
+    public double getDy() {
+        return dy;
+    }
+
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
+
+    public int getTamanyoLetra() {
+        return tamanyoLetra;
+    }
+
+    public void setTamanyoLetra(int tamanyoLetra) {
+        this.tamanyoLetra = tamanyoLetra;
+    }
+    
+    
 }

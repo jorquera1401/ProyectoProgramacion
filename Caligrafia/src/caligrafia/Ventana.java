@@ -65,6 +65,10 @@ public class Ventana extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 panelTexto.setPalabra(textoTxt.getText());
+                panelTexto.setStartx(0);
+                panelTexto.setStarty(300);
+                panelTexto.setDx(0);
+                panelTexto.setDy(300);
                 //panelTexto.separarLetras();
                 //panelTexto.
                 repaint();
