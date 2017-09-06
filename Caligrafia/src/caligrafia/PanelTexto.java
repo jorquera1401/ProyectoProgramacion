@@ -24,17 +24,21 @@ public class PanelTexto extends JPanel{
     private char letra;
     private double alto;
     private double ancho;
-    
+    //Dos coordenadas para referenciar el punto de incio de una letra.
     private double startx;
     private double starty;
+    //Dos indices para referenciar el punto de incio de una letra pero relativo a la linea inferior.
     private double dx;
     private double dy;
+    //Tamanyo de escalado de la letra.
     private int tamanyoLetra;
     
     public PanelTexto(){
         this.palabra = "";
         this.startx = 0;
-        this.starty = 0;
+        this.starty = 10;
+        this.dx = 0;
+        this.dy = 0;
         this.tamanyoLetra = 10;
     }
     /*
@@ -86,6 +90,18 @@ public class PanelTexto extends JPanel{
                     qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
                     g2.draw(qc);
                     break;
+                case 'b':
+                c.setCurve(this.dx+(this.ancho/15), this.dy, 
+                        this.dx, this.alto/4, 
+                        this.dx+(2*(this.ancho/15)), this.alto-(this.alto/4), 
+                        this.dx+(this.ancho/10), this.alto);
+                g2.draw(c);
+                c.setCurve(this.dx+(this.ancho/15), this.alto/2, 
+                        this.ancho/2, this.alto/4,
+                        this.ancho/2, this.alto-(this.alto/4),
+                        this.dx+(this.ancho/10), this.alto);
+                g2.draw(c);
+                break;
             }
         }
     }
