@@ -8,7 +8,6 @@ package caligrafia;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
 import javax.swing.JPanel;
@@ -20,7 +19,7 @@ import javax.swing.JPanel;
 public class PanelTexto extends JPanel{
     
     private String palabra;
-    //private Letra[] letras;
+    private Letra[] letras;
     private char letra;
     //private double alto;
     //private double ancho;
@@ -30,6 +29,7 @@ public class PanelTexto extends JPanel{
     //Dos indices para referenciar el punto de incio de una letra pero relativo a la linea inferior.
     private double dx;
     private double dy;
+    private Coordenada coordenadas;
     //Tamanyo de escalado de la letra.
     private int tamanyoLetra;
     
@@ -39,21 +39,18 @@ public class PanelTexto extends JPanel{
         this.starty = 300;
         this.dx = 0;
         this.dy = 300;
+       // this.coordenadas = new Coordenada(0, 300, 0, 300);
         this.tamanyoLetra = 50;
     }
-    /*
-    /   Remueve el panel principal y lo transforma en gridlayout, de tamanaño del 
-        largo del panel
     
-    public  void cargarLetras(){
-        this.removeAll();
-        setLayout(new GridLayout(1, this.palabra.length()));
-        
-        for(int i=0;i<this.letras.length;i++){
-              this.add(this.letras[i]);
-        }
-        this.validate();        
-    }*/
+    
+//    public  void cargarLetras(){
+//        CubicCurve2D c = new CubicCurve2D.Double();
+//        c.setCurve(this.startx, this.starty, 
+//                            this.dx+20, this.dy-50, 
+//                            this.dx-10, this.dy-50, 
+//                            this.dx+10, this.dy);
+//    }
     
     /**
      * separa cada una de las letras que contiene la palabra ingresada
@@ -88,22 +85,46 @@ public class PanelTexto extends JPanel{
             switch(this.letra){
                 case 'a':
                     //qc.setCurve(this.dx,this.alto,this.ancho/2,dy,this.ancho,this.alto);
+                    
                     g2.draw(qc);
                     break;
                 case 'b':
-                    c.setCurve(this.dx+2, this.dy-49, 
-                            this.dx, this.dy-35, 
-                            this.dx+7, this.dy-15, 
-                            this.startx, this.starty);
+                    c.setCurve(this.startx, this.starty, 
+                            this.dx+20, this.dy-50, 
+                            this.dx-10, this.dy-50, 
+                            this.dx+10, this.dy);
                     g2.draw(c);
-                    c.setCurve(this.dx+5, this.dy-25, 
-                            this.dx+20, this.dy-20,
+                    qc.setCurve(this.dx+10, this.dy, 
+                            this.dx+15, this.dy,
+                            this.dx+15, this.dy-15);
+                    g2.draw(qc);
+                    qc.setCurve(this.dx+15, this.dy-15, 
                             this.dx+20, this.dy-10,
-                            this.startx, this.starty);
-                    g2.draw(c);
-                    this.dx += 20;
-                    this.startx += 20;          
+                            this.dx+25, this.dy-15);
+                    g2.draw(qc);
+                    this.startx = this.dx + 25;
+                    this.starty = this.dy - 15;
+                    this.dx += 25;                            
                     break;
+                case 'f':
+                    //c.setCurve(this.startx, this.starty, this.dx+10, this.dy-50, this.ancho/5, this.alto/10, this.dx, this.dy);
+                    c.setCurve(this.startx, this.starty, 
+                            this.dx+20, this.dy-50, 
+                            this.dx-10, this.dy-50, 
+                            this.dx+10, this.dy);
+                    g2.draw(c);                   
+                    //c.setCurve(this.dx, this.alto/2, this.ancho/4, this.alto/3, this.ancho/4, this.alto/3, this.dx+(this.ancho/4), this.alto/2);
+                    g2.draw(c);
+                    break;
+                case 'l':
+                    c.setCurve(this.startx, this.starty, 
+                            this.dx+20, this.dy-50, 
+                            this.dx-10, this.dy-50, 
+                            this.dx+10, this.dy);
+                    g2.draw(c);
+                    this.startx = this.dx + 10;
+                    this.starty = this.dy;
+                    this.dx += 10;
             }
         }
     }
@@ -125,7 +146,7 @@ public class PanelTexto extends JPanel{
     public double getStartx() {
         return startx;
     }
-
+        
     public void setStartx(double startx) {
         this.startx = startx;
     }
