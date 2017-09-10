@@ -5,6 +5,7 @@
  */
 package caligrafia;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -71,11 +72,14 @@ public class PanelTexto extends JPanel{
         cargarLetras();
     }*/
    
-    @Override
     public void paint(Graphics g){
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
         g.setColor(Color.red);
  //       g.fillRect(0, 0, 10, 10);
+        BasicStroke stroke= new BasicStroke(3f);
         Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(stroke);
         
         QuadCurve2D qc = new QuadCurve2D.Float();
         CubicCurve2D c = new CubicCurve2D.Double();
@@ -125,9 +129,26 @@ public class PanelTexto extends JPanel{
                     this.startx = this.dx + 10;
                     this.starty = this.dy;
                     this.dx += 10;
+                    break;
+                    
+                case 'z':
+                    c.setCurve(this.startx,this.starty,
+                            this.dx+20,this.dy+50,
+                            this.dx-10,this.dy+50,
+                            this.dx+10,this.dy);
+                    qc.setCurve(this.startx, this.starty, this.dx+20, this.dy-20, this.dx+23, this.dy);
+                    g2.draw(c);
+                    g2.draw(qc);
+                    this.startx=this.dx+10;
+                    this.starty=this.dy;
+                    this.dx+=10;
+                    break;
+                    
             }
+                    
         }
     }
+    
 
     /**
      * @return the palabra

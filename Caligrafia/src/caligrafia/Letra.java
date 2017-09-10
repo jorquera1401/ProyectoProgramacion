@@ -5,7 +5,6 @@
  */
 package caligrafia;
 
-<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,17 +13,14 @@ import java.awt.geom.QuadCurve2D;
 import javafx.scene.shape.Shape;
 import java.awt.geom.QuadCurve2D;
 import javax.swing.*;
-=======
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.CubicCurve2D;
->>>>>>> fe9bc3ae4ff7f70e9d2b55912cf33515877abb51
 
 /**
  *
  * @author mjorquera
  */
-<<<<<<< HEAD
 public class Letra extends JPanel{
     
     private char letra;
@@ -35,24 +31,17 @@ public class Letra extends JPanel{
         x=0;
         y=0;
     }
-=======
-public class Letra {
->>>>>>> fe9bc3ae4ff7f70e9d2b55912cf33515877abb51
     
     private Point puntoInicio;
     private CubicCurve2D[] curvas;
     private char caracter;
     private int dx;
     
-<<<<<<< HEAD
     public void generarPUntos(){
         System.out.println("x: "+x+" y:"+y+" width:"+this.width+" height: "+this.height);
     }
     
-    @Override
     public void paint(Graphics g){
-        this.height=this.getHeight();
-        this.width=this.getWidth();
         g.setColor(Color.red);
  //       g.fillRect(0, 0, 10, 10);
         Graphics2D g2d = (Graphics2D) g;
@@ -72,7 +61,7 @@ public class Letra {
      */
     public char getLetra() {
         return letra;
-=======
+    }
     public Letra(CubicCurve2D[] curvas, char caracter, int dx){
         this.curvas = curvas;
         this.puntoInicio = new Point(0, 0);
@@ -85,6 +74,5 @@ public class Letra {
             g2d.draw(c);
         }
         return this.dx;
->>>>>>> fe9bc3ae4ff7f70e9d2b55912cf33515877abb51
     }
 }
