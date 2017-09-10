@@ -257,6 +257,59 @@ public class PanelTexto extends JPanel{
                     this.starty=this.dy;
                     this.dx+=25;
                     break;
+                case 'X':
+                    c.setCurve(this.startx,this.starty-50,
+                            this.dx+16,this.dy-50,
+                            this.dx+29,this.dy+6,
+                            this.dx+50,this.dy);
+                     g2.draw(c);
+                    c.setCurve(this.startx,this.starty,
+                            this.dx+22,this.dy-50,
+                            this.dx+39,this.dy-36,
+                            this.dx+50,this.dy-50);
+                     g2.draw(c);
+                     
+                    this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                    break;
+                case 'Y':
+                    c.setCurve(this.dx+40,this.dy-50,
+                            this.dx+42,this.dy+83,
+                            this.dx-48,this.dy+53,
+                            this.dx+50,this.dy);
+                    g2.draw(c);
+                    this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                    break;  
+                case 'Z':
+                    c.setCurve(this.startx,this.starty-44,
+                            this.dx+36,this.dy-75,
+                            this.dx-43,this.dy-43,
+                            this.dx+50,this.dy-50);
+                    
+                    g2.draw(c);
+                    c.setCurve(this.startx,this.starty,
+                            this.dx+21,this.dy-22,
+                            this.dx+40,this.dy-41,
+                            this.dx+50,this.dy-50);
+                    g2.draw(c);
+                     c.setCurve(this.startx,this.starty,
+                            this.dx+13,this.dy-9,
+                            this.dx+34,this.dy+3,
+                            this.dx+50,this.dy);
+                     g2.draw(c);
+                     c.setCurve(this.startx+14,this.starty-22,
+                            this.dx+20,this.dy-28,
+                            this.dx+28,this.dy-19,
+                            this.dx+39,this.dy-24);
+                     g2.draw(c);
+                     this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                    break;
+                    
                     
             }
                     
