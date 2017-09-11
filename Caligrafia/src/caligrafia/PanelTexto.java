@@ -132,14 +132,21 @@ public class PanelTexto extends JPanel{
                     break;
                     
                 case 'p':
-                    c.setCurve(this.startx+35,this.starty,
-                            this.dx-28,this.dy+28,
-                            this.dx+32,this.dy-95,
-                            this.dx+4,this.dy+46);
+                    c.setCurve(this.dx+13,this.dy-17,
+                            this.dx+13,this.dy-17,
+                            this.dx+13,this.dy-17,
+                            this.dx+6,this.dy+44);
+                    g2.draw(c);
+                    c.setCurve(this.startx,this.starty,
+                            
+                            this.dx+28,this.dy-51,
+                            this.dx-1,this.dy+12,
+                            
+                            this.dx+36,this.dy);
                     g2.draw(c);
                     this.startx = this.dx + 35;
                     this.starty = this.dy;
-                    this.dx += 35;
+                    this.dx += 36;
                     
                     break;
                 case 'q':
@@ -171,6 +178,37 @@ public class PanelTexto extends JPanel{
                     this.startx=this.dx+32;
                     this.starty=this.dy;
                     this.dx+=32;
+                    break;
+                case 's':
+                    c.setCurve(this.startx,this.starty,
+                            this.dx+44,this.dy-54,
+                            this.dx+18,this.dy-11,
+                            this.dx+16,this.dy+8);
+                    g2.draw(c);
+                    c.setCurve(this.dx+16,this.starty+8,
+                            this.dx+8,this.dy+8,
+                            this.dx,this.dy-3,
+                            this.dx+30,this.dy);
+                    g2.draw(c);
+                    this.startx=this.dx+30;
+                    this.starty=this.dy;
+                    this.dx+=30;
+                    break;
+                case 't':
+                    c.setCurve(this.startx,this.starty,
+                            this.dx+32,this.dy-64,
+                            this.dx-12,this.dy-64,
+                            this.dx+28,this.dy);
+                    g2.draw(c);
+                    c.setCurve(this.dx+4,this.dy-29,
+                            this.dx+11,this.dy-29,
+                            this.dx-24,this.dy-33,
+                            this.dx+24,this.dy-34);
+                    g2.draw(c);
+                    
+                    this.startx=this.dx+28;
+                    this.starty=this.dy;
+                    this.dx+=28;
                     break;
                 case 'u':
                     c.setCurve(this.startx,this.starty,
@@ -257,6 +295,154 @@ public class PanelTexto extends JPanel{
                     this.starty=this.dy;
                     this.dx+=25;
                     break;
+                case 'P':
+                    c.setCurve(this.startx+8,this.starty-8,
+                            this.dx,this.dy+9,
+                            this.dx+38,this.dy-6,
+                            this.dx+23,this.dy-37);
+                    g2.draw(c);
+                    c.setCurve(this.dx+17,this.dy-28,
+                            this.dx+3,this.dy-75,
+                            this.dx+86,this.dy-32,
+                            this.dx+30,this.dy-25);
+                    g2.draw(c);
+                    this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                    break;
+                case 'Q':
+                    c.setCurve(this.startx+15,this.starty-47,
+                            this.dx-36,this.dy+11,
+                            this.dx+79,this.dy+31,
+                            this.dx+25,this.dy-47);
+                    g2.draw(c);
+                    c.setCurve(this.startx+22,this.starty-13,
+                            this.dx+41,this.dy-16,
+                            this.dx+32,this.dy+2,
+                            this.dx+50,this.dy);
+                    g2.draw(c);
+                    this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                    break;
+                case 'R':
+                    c.setCurve(this.startx+4,this.starty-5,
+                            this.dx+19,this.dy+23,
+                            this.dx+22,this.dy-14,
+                            this.dx+20,this.dy-42);
+                    g2.draw(c);
+                    c.setCurve(this.dx+12,this.dy-31,
+                            this.dx-10,this.dy-69,
+                            this.dx+90,this.dy-37,
+                            this.dx+25,this.dy-17);
+                    g2.draw(c);
+                    c.setCurve(this.dx+25,this.dy-17,
+                            this.dx+24,this.dy-32,
+                            this.dx+41,this.dy-24,
+                            this.dx+50,this.dy);
+                    g2.draw(c);
+                    this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                    break;
+                case 'S':
+                    c.setCurve(this.startx,this.starty,
+                            this.dx+82,this.dy-45,
+                            this.dx-8,this.dy-84,
+                            this.dx+45,this.dy-19);
+                    g2.draw(c);
+                    c.setCurve(this.dx+45,this.dy-19,
+                            this.dx+60,this.dy+36,
+                            this.dx-47,this.dy-34,
+                            this.dx+63,this.dy);
+                    g2.draw(c);
+                    this.startx=this.dx+63;
+                    this.starty=this.dy;
+                    this.dx+=63;
+                    break;
+                case 'T':
+                    c.setCurve(this.startx+9,this.starty-38,
+                            this.dx-11,this.dy-57,
+                            this.dx+30,this.dy-43,
+                            this.dx+45,this.dy-38);
+                    g2.draw(c);
+                    c.setCurve(this.dx+45,this.dy-38,
+                            this.dx+58,this.dy-77,
+                            this.dx-35,this.dy+27,
+                            this.dx+53,this.dy+1);
+                    g2.draw(c);
+                    
+                    c.setCurve(this.dx+10,this.dy-30,
+                            this.dx+36,this.dy-30,
+                            this.dx+36,this.dy-30,
+                            this.dx+36,this.dy-30);
+                    g2.draw(c);
+                    
+                     this.startx=this.dx+53;
+                    this.starty=this.dy;
+                    this.dx+=53;
+                    break;
+                case 'U':
+                    c.setCurve(this.startx+7,this.starty-32,
+                            this.dx-12,this.dy-51,
+                            this.dx+25,this.dy-62,
+                            this.dx+11,this.dy-11);
+                    g2.draw(c);
+                    c.setCurve(this.dx+11,this.starty-11,
+                            this.dx+7,this.dy+5,
+                            this.dx+47,this.dy+18,
+                            this.dx+49,this.dy-49);
+                     g2.draw(c);
+                    c.setCurve(this.dx+49,this.starty-49,
+                            this.dx+40,this.dy-38,
+                            this.dx+26,this.dy-1,
+                            this.dx+49,this.dy);
+                     g2.draw(c);
+                     this.startx=this.dx+54;
+                    this.starty=this.dy;
+                    this.dx+=53;
+                     
+                     break;
+                case 'V':
+                    c.setCurve(this.startx+9,this.starty-39,
+                            this.dx-26,this.dy-59,
+                            this.dx+32,this.dy-61,
+                            this.dx+20,this.dy+6);
+                    g2.draw(c);
+                    c.setCurve(this.dx+20,this.starty+4,
+                            this.dx+50,this.dy-7,
+                            this.dx+32,this.dy-54,
+                            this.dx+50,this.dy-50);
+                     g2.draw(c);
+                    this.startx=this.dx+50;
+                    this.starty=this.dy;
+                    this.dx+=50;
+                     
+                     break;
+                case 'W':
+                    c.setCurve(this.startx,this.starty-50,
+                            this.dx-2,this.dy+19,
+                            this.dx+26,this.dy+38,
+                            this.dx+28,this.dy-28);
+                     g2.draw(c);
+                    c.setCurve(this.dx+28,this.dy-28,
+                            this.dx+11,this.dy+17,
+                            this.dx+68,this.dy+35,
+                            this.dx+50,this.dy-48);
+                    g2.draw(c);
+                    c.setCurve(this.dx+50,this.dy-48,
+                            this.dx+40,this.dy-35,
+                            this.dx+39,this.dy,
+                            this.dx+60,this.dy);
+                    g2.draw(c);
+                    
+                    this.startx=this.dx+60;
+                    this.starty=this.dy;
+                    this.dx+=60;
+                     
+                    break;
+                    
+                    
                 case 'X':
                     c.setCurve(this.startx,this.starty-50,
                             this.dx+16,this.dy-50,
