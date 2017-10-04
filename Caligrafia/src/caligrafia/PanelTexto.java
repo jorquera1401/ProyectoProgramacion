@@ -92,6 +92,9 @@ public class PanelTexto extends JPanel{
    
     @Override
     public void paint(Graphics g){
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        
         g.setColor(Color.red);
  //       g.fillRect(0, 0, 10, 10);
         Graphics2D g2 = (Graphics2D) g;
