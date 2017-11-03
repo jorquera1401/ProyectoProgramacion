@@ -29,7 +29,7 @@ public class PanelTexto extends JPanel{
     //private Palabra palabra;
     private ArrayList<Letra> letras;
     private ArrayList<Palabra> palabras;
-    private char letra;
+    //private char letra;
     //Dos coordenadas para referenciar el punto de incio de una letra.
     private double startx;
     private double starty;
@@ -69,15 +69,7 @@ public class PanelTexto extends JPanel{
 
         CubicCurve2D c = new CubicCurve2D.Double();
         this.cargarPalabras();
-//        int incremento = 1;
-//        incremento = -1;
-//        int posicion = 0;
-//        posicion = this.palabras.size();
-//        int termino = this.palabras.size();
-//        termino = 0;
-//        while(posicion != termino){
-//            posicion += incremento;
-//        }
+
         int incremento;
         int posicion;
         int termino;
@@ -94,8 +86,7 @@ public class PanelTexto extends JPanel{
             //Se establecen los puntos de incio y termino dependiendo de las letras de la palabra.
             this.palabras.get(posicion).setStartx(this.startx);
             this.palabras.get(posicion).setStarty(this.starty);
-            
-            
+
             this.palabras.get(posicion).setEndx(this.dx + this.palabras.get(posicion).getAncho());
             this.palabras.get(posicion).setEndy(this.dy);
             //Se verifica si es necesario agandar el panel horizontalmente
@@ -106,49 +97,54 @@ public class PanelTexto extends JPanel{
             else if(this.getWidth() < this.palabras.get(posicion).getEndx()){
                 this.dx = 10;
                 this.startx = this.dx;
-                this.dy += 65 * this.s;
+                this.dy += 65 * this.palabras.get(posicion).getS();
                 this.starty = this.dy;
-            }            
+            }
             //Se verifica si es necesario agandar el panel verticalmente
             else if(this.dy > this.getHeight()){
-                this.setPreferredSize(new Dimension((int)this.getWidth(), (int) (this.getHeight()+(65 * this.s))));
+                this.setPreferredSize(new Dimension((int)this.getWidth(), (int) (this.getHeight()+(65 * this.palabras.get(posicion).getS()))));
             }
-            
+
             //Se setean los estilos.
             if(this.palabras.get(posicion).isSubrayado()){
-                stroke = new BasicStroke(2.0f); 
-                g2.drawLine((int)this.palabras.get(posicion).getStartx(), (int)this.dy + 5,(int) this.palabras.get(posicion).getEndx(), (int)this.dy + 5);
+                stroke = new BasicStroke(2.0f);
+                g2.setStroke(stroke);
+                if((posicion + incremento) != termino && this.palabras.get(posicion + incremento).isSubrayado()){
+                    g2.drawLine((int)this.palabras.get(posicion).getStartx(), (int)this.dy + 5,(int) (this.palabras.get(posicion).getEndx() + (30 * this.palabras.get(posicion).getS())), (int)this.dy + 5);
+                }else{
+                    g2.drawLine((int)this.palabras.get(posicion).getStartx(), (int)this.dy + 5,(int) this.palabras.get(posicion).getEndx(), (int)this.dy + 5);
+                }
             }
             if(this.palabras.get(posicion).isNegrita()){
-                stroke = new BasicStroke(5.0f);        
+                stroke = new BasicStroke(5.0f);
             }else{
-                stroke = new BasicStroke(2.0f);        
-            }           
+                stroke = new BasicStroke(2.0f);
+            }
             g2.setStroke(stroke);
-                        
+
             if(this.palabras.get(posicion).isCursiva()){
-                this.dx += 0.5*this.starty*this.s;
+                this.dx += 0.5*this.starty*this.palabras.get(posicion).getS();
                 this.startx = this.dx;
             }
             //Se imprime la palabra en el panel.
             for(int i = 0; i < palabras.get(posicion).getString().length(); i++){
                 for(int j = 0; j < this.letras.size(); j++){
-                    if(this.letras.get(j).getLetra() == this.palabras.get(posicion).getString().charAt(i)){    
+                    if(this.letras.get(j).getLetra() == this.palabras.get(posicion).getString().charAt(i)){
                         Set<Integer> keys = this.letras.get(j).getCoordenadas().keySet();
                         Iterator<Integer> it = keys.iterator();
                         ArrayList<Double> al = new ArrayList<>();
                         if(j < 27){
                             al = this.letras.get(j).getCoordenadas().get(it.next());
-                            if(this.palabras.get(posicion).isCursiva()){                                
-                                c.setCurve((this.startx+al.get(0)*this.s)-0.5*(this.starty+al.get(1)*this.s), this.starty+al.get(1)*this.s,
-                                            (this.dx+al.get(2)*this.s)-0.5*(this.dy+al.get(3)*this.s), this.dy+al.get(3)*this.s,
-                                            (this.dx+al.get(4)*this.s)-0.5*(this.dy+al.get(5)*this.s), this.dy+al.get(5)*this.s,
-                                            (this.dx+al.get(6)*this.s)-0.5*(this.dy+al.get(7)*this.s), this.dy+al.get(7)*this.s);
+                            if(this.palabras.get(posicion).isCursiva()){
+                                c.setCurve((this.startx+al.get(0)*this.palabras.get(posicion).getS())-0.5*(this.starty+al.get(1)*this.palabras.get(posicion).getS()), this.starty+al.get(1)*this.palabras.get(posicion).getS(),
+                                            (this.dx+al.get(2)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(3)*this.palabras.get(posicion).getS()), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
+                                            (this.dx+al.get(4)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(5)*this.palabras.get(posicion).getS()), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
+                                            (this.dx+al.get(6)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(7)*this.palabras.get(posicion).getS()), this.dy+al.get(7)*this.palabras.get(posicion).getS());
                             }else{
-                                c.setCurve(this.startx+al.get(0)*this.s, this.starty+al.get(1)*this.s,
-                                            this.dx+al.get(2)*this.s, this.dy+al.get(3)*this.s,
-                                            this.dx+al.get(4)*this.s, this.dy+al.get(5)*this.s,
-                                            this.dx+al.get(6)*this.s, this.dy+al.get(7)*this.s);
+                                c.setCurve(this.startx+al.get(0)*this.palabras.get(posicion).getS(), this.starty+al.get(1)*this.palabras.get(posicion).getS(),
+                                            this.dx+al.get(2)*this.palabras.get(posicion).getS(), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
+                                            this.dx+al.get(4)*this.palabras.get(posicion).getS(), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
+                                            this.dx+al.get(6)*this.palabras.get(posicion).getS(), this.dy+al.get(7)*this.palabras.get(posicion).getS());
                             }
                             g2.draw(c);
                         //se activa cuando se presiona el boton de los puntos de control
@@ -163,18 +159,18 @@ public class PanelTexto extends JPanel{
                         while(it.hasNext()){
                             al = this.letras.get(j).getCoordenadas().get(it.next());
                             if(this.palabras.get(posicion).isCursiva()){
-                                c.setCurve((this.dx+al.get(0)*this.s)-0.5*(this.dy+al.get(1)*this.s), this.dy+al.get(1)*this.s,
-                                            (this.dx+al.get(2)*this.s)-0.5*(this.dy+al.get(3)*this.s), this.dy+al.get(3)*this.s,
-                                            (this.dx+al.get(4)*this.s)-0.5*(this.dy+al.get(5)*this.s), this.dy+al.get(5)*this.s,
-                                            (this.dx+al.get(6)*this.s)-0.5*(this.dy+al.get(7)*this.s), this.dy+al.get(7)*this.s);
-                            }else{    
-                                c.setCurve(this.dx+al.get(0)*this.s, this.dy+al.get(1)*this.s,
-                                        this.dx+al.get(2)*this.s, this.dy+al.get(3)*this.s,
-                                        this.dx+al.get(4)*this.s, this.dy+al.get(5)*this.s,
-                                        this.dx+al.get(6)*this.s, this.dy+al.get(7)*this.s);
-                            }    
+                                c.setCurve((this.dx+al.get(0)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(1)*this.palabras.get(posicion).getS()), this.dy+al.get(1)*this.palabras.get(posicion).getS(),
+                                            (this.dx+al.get(2)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(3)*this.palabras.get(posicion).getS()), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
+                                            (this.dx+al.get(4)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(5)*this.palabras.get(posicion).getS()), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
+                                            (this.dx+al.get(6)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(7)*this.palabras.get(posicion).getS()), this.dy+al.get(7)*this.palabras.get(posicion).getS());
+                            }else{
+                                c.setCurve(this.dx+al.get(0)*this.palabras.get(posicion).getS(), this.dy+al.get(1)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(2)*this.palabras.get(posicion).getS(), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(4)*this.palabras.get(posicion).getS(), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(6)*this.palabras.get(posicion).getS(), this.dy+al.get(7)*this.palabras.get(posicion).getS());
+                            }
                             g2.draw(c);
-                            
+
                             if(control){
                                 g2.setColor(Color.blue);
                                 g2.fillOval((int)c.getX1(),(int)c.getY1(),5,5);
@@ -185,11 +181,11 @@ public class PanelTexto extends JPanel{
                             }
                         }
                         g2.setColor(Color.red);
-                        this.startx = this.dx + this.letras.get(j).getAncho() * this.s;
-                        this.dx += this.letras.get(j).getAncho() * this.s;
+                        this.startx = this.dx + this.letras.get(j).getAncho() * this.palabras.get(posicion).getS();
+                        this.dx += this.letras.get(j).getAncho() * this.palabras.get(posicion).getS();
 
                         if(j < 27){
-                            this.starty = this.dy + al.get(7) * this.s;
+                            this.starty = this.dy + al.get(7) * this.palabras.get(posicion).getS();
                         }
                         else{
                             this.starty = this.dy;
@@ -197,20 +193,21 @@ public class PanelTexto extends JPanel{
                     }
                 }
             }
-            this.dx += 30 * this.s;
+            this.dx += 30 * this.palabras.get(posicion).getS();
             this.startx = this.dx;
-            
+
             posicion += incremento;
         }
     }
-    
+
     public void cargarPalabras(){
         this.palabras = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(this.oracion);      
+        StringTokenizer st = new StringTokenizer(this.oracion);
         StringTokenizer stRegEx = new StringTokenizer(this.regex, ",");
+        //Se leen las palabras de la oracion.
         while(st.hasMoreTokens()){
             Palabra p = new Palabra(st.nextToken());
-
+            //Se lee la expresion regular correspondiente a la palabra.
             if(stRegEx.hasMoreTokens()){
                 String next = stRegEx.nextToken();
                 for(int i = 0; i < next.length(); i++){
@@ -226,7 +223,7 @@ public class PanelTexto extends JPanel{
                     else if(next.charAt(i) == '1'){
                         p.setS(1.0);
                     }
-                    else if(next.charAt(i) == '2'){                        
+                    else if(next.charAt(i) == '2'){
                         p.setS(1.5);
                     }
                     else if(next.charAt(i) == '3'){
@@ -252,7 +249,7 @@ public class PanelTexto extends JPanel{
                     }
                 }
             }
-        
+
             double anchoPalabra = 0;
             for(int i = 0; i < p.getString().length(); i++){
                 for(int j = 0; j < this.letras.size(); j++){
@@ -618,7 +615,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 15.0);
         al.add(7, -22.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 15.0);
         al.add(1, -15.0);
@@ -628,14 +625,14 @@ public class PanelTexto extends JPanel{
         al.add(5, -2.0);
         al.add(6, 30.0);
         al.add(7, 0.0);
-        coordenadas.put(3, al);        
+        coordenadas.put(3, al);
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('j', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -646,7 +643,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 7.0);
         al.add(7, -17.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 10.0);
         al.add(1, -15.0);
@@ -657,13 +654,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 35.0);
         al.add(7, -5.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('k', 25.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -674,7 +671,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, 0.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 10.0);
         al.add(1, -5.0);
@@ -685,7 +682,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, -5.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 10.0);
         al.add(1, -5.0);
@@ -696,13 +693,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 25.0);
         al.add(7, 0.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('l', 10.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -713,13 +710,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, 0.0);
         coordenadas.put(1, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('m', 39.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -730,7 +727,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 19.0);
         al.add(7, -3.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 19.0);
         al.add(1, -3.0);
@@ -741,7 +738,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 28.0);
         al.add(7, -3.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 28.0);
         al.add(1, -3.0);
@@ -752,13 +749,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 39.0);
         al.add(7, -3.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('n', 38.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -769,7 +766,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 19.0);
         al.add(7, -3.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 19.0);
         al.add(1, -3.0);
@@ -780,13 +777,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 38.0);
         al.add(7, -3.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('ñ', 38.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 5.0);
         al.add(1, -23.0);
@@ -797,7 +794,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 33.0);
         al.add(7, -23.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -808,7 +805,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 19.0);
         al.add(7, -3.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 19.0);
         al.add(1, -3.0);
@@ -819,13 +816,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 38.0);
         al.add(7, -3.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('o', 38.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -836,7 +833,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, -10.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 12.0);
         al.add(1, -12.0);
@@ -847,7 +844,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 30.0);
         al.add(7, -14.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 12.0);
         al.add(1, -12.0);
@@ -858,13 +855,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 38.0);
         al.add(7, -15.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('p', 25.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -875,7 +872,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 11.0);
         al.add(7, -12.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 11.0);
         al.add(1, 0.0);
@@ -886,7 +883,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 11.0);
         al.add(7, 19.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 11.0);
         al.add(1, 0.0);
@@ -897,13 +894,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 25.0);
         al.add(7, -5.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('q', 25.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, 0.0);
@@ -914,7 +911,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 5.0);
         al.add(7, -12.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 20.0);
         al.add(1, -5.0);
@@ -925,7 +922,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 19.0);
         al.add(7, 0.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 20.0);
         al.add(1, -5.0);
@@ -936,7 +933,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 19.0);
         al.add(7, 0.0);
         coordenadas.put(3, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 20.0);
         al.add(1, -5.0);
@@ -947,241 +944,241 @@ public class PanelTexto extends JPanel{
         al.add(6, 25.0);
         al.add(7, -5.0);
         coordenadas.put(4, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
 
         l = new Letra('r', 27.0);
         coordenadas = new HashMap<>();
-        
+
         al= new ArrayList<>();
         al.add(0,0.0); al.add(1,0.0);
         al.add(2,2.0);  al.add(3,-4.0);
         al.add(4,4.0);  al.add(5,-2.0);
         al.add(6,4.0);  al.add(7,-13.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,4.0);  al.add(1,-13.0);
         al.add(2,8.0);  al.add(3,-13.0);
         al.add(4,13.0);  al.add(5,-13.0);
         al.add(6,17.0);  al.add(7,-14.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,17.0);  al.add(1,-14.0);
         al.add(2,15.0);  al.add(3,-15.0);
         al.add(4,19.0);  al.add(5,-6.0);
         al.add(6,27.0);  al.add(7,0.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('s', 28.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,5.0);  al.add(3,-1.0);
         al.add(4,16.0);  al.add(5,-2.0);
         al.add(6,17.0);  al.add(7,-14.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,17.0);  al.add(1,-14.0);
         al.add(2,22.0);  al.add(3,9.0);
         al.add(4,8.0);  al.add(5,0.0);
         al.add(6,6.0);  al.add(7,-1.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,4.0);  al.add(1,-1.0);
         al.add(2,4.0);  al.add(3,-1.0);
         al.add(4,22.0);  al.add(5,8.0);
         al.add(6,28.0);  al.add(7,0.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
-        
+
+
         l = new Letra('t', 30.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,5.0);  al.add(3,-1.0);
         al.add(4,15.0);  al.add(5,-8.0);
         al.add(6,15.0);  al.add(7,-37.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,11.0);  al.add(1,-26.0);
         al.add(2,11.0);  al.add(3,-26.0);
         al.add(4,11.0);  al.add(5,-26.0);
         al.add(6,30.0);  al.add(7,-26.0);
-        
+
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,15.0);  al.add(1,-37.0);
         al.add(2,15.0);  al.add(3,-18.0);
         al.add(4,15.0);  al.add(5,-3.0);
         al.add(6,30.0);  al.add(7,0.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('u', 40.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,7.0);  al.add(3,2.0);
         al.add(4,6.0);  al.add(5,-4.0);
         al.add(6,6.0);  al.add(7,-15.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,6.0);  al.add(1,-15.0);
         al.add(2,3.0);  al.add(3,6.0);
         al.add(4,26.0);  al.add(5,0.0);
         al.add(6,22.0);  al.add(7,-15.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,22.0);  al.add(1,-15.0);
         al.add(2,20.0);  al.add(3,0.0);
         al.add(4,30.0);  al.add(5,-1.0);
         al.add(6,40.0);  al.add(7,0.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('v', 45.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,3.0);  al.add(3,-19.0);
         al.add(4,14.0);  al.add(5,-18.0);
         al.add(6,13.0);  al.add(7,-2.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,13.0);  al.add(1,-2.0);
         al.add(2,17.0);  al.add(3,5.0);
         al.add(4,31.0);  al.add(5,6.0);
         al.add(6,31.0);  al.add(7,-13.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,31.0);  al.add(1,-13.0);
         al.add(2,26.0);  al.add(3,-13.0);
         al.add(4,26.0);  al.add(5,-13.0);
         al.add(6,45.0);  al.add(7,-13.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('w', 60.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,18.0);  al.add(3,0.0);
         al.add(4,29.0);  al.add(5,-15.0);
         al.add(6,17.0);  al.add(7,-8.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,17.0);  al.add(1,-8.0);
         al.add(2,14.0);  al.add(3,4.0);
         al.add(4,35.0);  al.add(5,6.0);
         al.add(6,34.0);  al.add(7,-12.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,34.0);  al.add(1,-12.0);
         al.add(2,26.0);  al.add(3,6.0);
         al.add(4,53.0);  al.add(5,9.0);
         al.add(6,50.0);  al.add(7,-12.0);
         coordenadas.put(3,al);
-        
+
         al=new ArrayList<>();
         al.add(0,50.0);  al.add(1,-12.0);
         al.add(2,50.0);  al.add(3,-12.0);
         al.add(4,50.0);  al.add(5,-12.0);
         al.add(6,60.0);  al.add(7,-12.0);
         coordenadas.put(4,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('x', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,12.0);  al.add(3,-64.0);
         al.add(4,8.0);  al.add(5,+16.0);
         al.add(6,35.0);  al.add(7,0.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,5.0);  al.add(1,-2.0);
         al.add(2,14.0);  al.add(3,-7.0);
         al.add(4,14.0);  al.add(5,-7.0);
         al.add(6,22.0);  al.add(7,-18.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('y', 41.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,8.0);  al.add(3,-55.0);
         al.add(4,9.0);  al.add(5,32.0);
         al.add(6,13.0);  al.add(7,-6.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,13.0);  al.add(1,-6.0);
         al.add(2,5.0);  al.add(3,99.0);
         al.add(4,-18.0);  al.add(5,0.0);
         al.add(6,31.0);  al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('z', 50.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
         al.add(0,0.0);  al.add(1,0.0);
         al.add(2,19.0);  al.add(3,-21.0);
         al.add(4,52.0);  al.add(5,-21.0);
         al.add(6,26.0);  al.add(7,0.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,30.0);  al.add(1,-5.0);
         al.add(2,15.0);  al.add(3,119.0);
         al.add(4,-28.0);  al.add(5,0.0);
         al.add(6,51.0);  al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('A', 45.0);
         coordenadas = new HashMap<>();
 
@@ -1220,7 +1217,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('B', 20.0);
         coordenadas = new HashMap<>();
 
@@ -1270,7 +1267,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('C', 30.0);
         coordenadas = new HashMap<>();
 
@@ -1284,10 +1281,10 @@ public class PanelTexto extends JPanel{
         al.add(6, 30.0);
         al.add(7, -5.0);
         coordenadas.put(1, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('D', 25.0);
         coordenadas = new HashMap<>();
 
@@ -1337,7 +1334,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('E', 25.0);
         coordenadas = new HashMap<>();
 
@@ -1365,7 +1362,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('F', 20.0);
         coordenadas = new HashMap<>();
 
@@ -1404,7 +1401,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('G', 25.0);
         coordenadas = new HashMap<>();
 
@@ -1454,7 +1451,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('H', 30.0);
         coordenadas = new HashMap<>();
 
@@ -1493,7 +1490,7 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('I', 30.0);
         coordenadas = new HashMap<>();
 
@@ -1543,10 +1540,10 @@ public class PanelTexto extends JPanel{
 
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('J', 31.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 18.0);
         al.add(1, -40.0);
@@ -1557,7 +1554,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 31.0);
         al.add(7, -4.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 18.0);
         al.add(1, -40.0);
@@ -1568,13 +1565,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 28.0);
         al.add(7, -5.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('K', 25.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0,   10.0);
         al.add(1, 0.0);
@@ -1585,7 +1582,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 0.0);
         al.add(7, -38.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 10.0);
         al.add(1, -20.0);
@@ -1596,7 +1593,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 25.0);
         al.add(7, -30.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 10.0);
         al.add(1, -20.0);
@@ -1607,13 +1604,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 25.0);
         al.add(7, 0.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('L', 27.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, -32.0);
@@ -1624,7 +1621,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 11.0);
         al.add(7, -13.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 11.0);
         al.add(1, -13.0);
@@ -1635,13 +1632,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 27.0);
         al.add(7, 0.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('M', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0,   0.0);
         al.add(1, -38.0);
@@ -1652,7 +1649,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, 0.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 9.0);
         al.add(1, -32.0);
@@ -1663,7 +1660,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 20.0);
         al.add(7, 0.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 20.0);
         al.add(1, -25.0);
@@ -1674,13 +1671,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 30.0);
         al.add(7, 0.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('N', 25.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, -38.0);
@@ -1691,7 +1688,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, 0.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 9.0);
         al.add(1, -32.0);
@@ -1702,13 +1699,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 20.0);
         al.add(7, 0.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('Ñ', 25.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0,   1.0);
         al.add(1, -45.0);
@@ -1719,7 +1716,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 20.0);
         al.add(7, -45.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, -38.0);
@@ -1730,7 +1727,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 10.0);
         al.add(7, 0.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 9.0);
         al.add(1, -32.0);
@@ -1741,13 +1738,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 20.0);
         al.add(7, 0.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
          l = new Letra('O', 45.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, -26.0);
@@ -1758,7 +1755,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 40.0);
         al.add(7, -26.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 0.0);
         al.add(1, -26.0);
@@ -1769,7 +1766,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 40.0);
         al.add(7, -26.0);
         coordenadas.put(2, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 12.0);
         al.add(1, -35.0);
@@ -1780,13 +1777,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 45.0);
         al.add(7, -35.0);
         coordenadas.put(3, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('P', 29.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 5.0);
         al.add(1, 0.0);
@@ -1797,7 +1794,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 5.0);
         al.add(7, -40.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 5.0);
         al.add(1, -21.0);
@@ -1808,13 +1805,13 @@ public class PanelTexto extends JPanel{
         al.add(6, 5.0);
         al.add(7, -40.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('Q', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al = new ArrayList<>();
         al.add(0, 8.0);
         al.add(1, -15.0);
@@ -1825,7 +1822,7 @@ public class PanelTexto extends JPanel{
         al.add(6, 13.0);
         al.add(7, -5.0);
         coordenadas.put(1, al);
-        
+
         al = new ArrayList<>();
         al.add(0, 13.0);
         al.add(1, -5.0);
@@ -1836,579 +1833,579 @@ public class PanelTexto extends JPanel{
         al.add(6, 26.0);
         al.add(7, 0.0);
         coordenadas.put(2, al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('R', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,1.0);  
+        al.add(0,1.0);
         al.add(1,-5.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,13.0);
-        al.add(4,7.0);  
+        al.add(4,7.0);
         al.add(5,-4.0);
-        al.add(6,5.0);  
+        al.add(6,5.0);
         al.add(7,-32.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,2.0);  
+        al.add(0,2.0);
         al.add(1,-21.0);
-        al.add(2,-5.0);  
+        al.add(2,-5.0);
         al.add(3,-59.0);
-        al.add(4,55.0);  
+        al.add(4,55.0);
         al.add(5,-27.0);
-        al.add(6,10.0);  
+        al.add(6,10.0);
         al.add(7,-7.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,10.0);  
+        al.add(0,10.0);
         al.add(1,-7.0);
-        al.add(2,9.0);  
+        al.add(2,9.0);
         al.add(3,-22.0);
-        al.add(4,26.0);  
+        al.add(4,26.0);
         al.add(5,-14.0);
-        al.add(6,35.0);  
+        al.add(6,35.0);
         al.add(7,0.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('S', 48.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,0.0);
-        al.add(2,57.0);  
+        al.add(2,57.0);
         al.add(3,-35.0);
-        al.add(4,-3.0);  
+        al.add(4,-3.0);
         al.add(5,-64.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,-9.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,30.0);  
+        al.add(0,30.0);
         al.add(1,-9.0);
-        al.add(2,45.0);  
+        al.add(2,45.0);
         al.add(3,26.0);
-        al.add(4,-22.0);  
+        al.add(4,-22.0);
         al.add(5,-24.0);
-        al.add(6,48.0);  
+        al.add(6,48.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('T', 26.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-28.0);
-        al.add(2,-6.0);  
+        al.add(2,-6.0);
         al.add(3,-47.0);
-        al.add(4,15.0);  
+        al.add(4,15.0);
         al.add(5,-33.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,-28.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,30.0);  
+        al.add(0,30.0);
         al.add(1,-28.0);
-        al.add(2,43.0);  
+        al.add(2,43.0);
         al.add(3,-67.0);
-        al.add(4,-20.0);  
+        al.add(4,-20.0);
         al.add(5,17.0);
-        al.add(6,38.0);  
+        al.add(6,38.0);
         al.add(7,1.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,3.0);  
+        al.add(0,3.0);
         al.add(1,-20.0);
-        al.add(2,26.0);  
+        al.add(2,26.0);
         al.add(3,-20.0);
-        al.add(4,26.0);  
+        al.add(4,26.0);
         al.add(5,-20.0);
-        al.add(6,26.0);  
+        al.add(6,26.0);
         al.add(7,-20.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('U', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,-40.0);
-        al.add(2,-2.0);  
+        al.add(2,-2.0);
         al.add(3,9.0);
-        al.add(4,24.0);  
+        al.add(4,24.0);
         al.add(5,15.0);
-        al.add(6,27.0);  
+        al.add(6,27.0);
         al.add(7,-40.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,27.0);  
+        al.add(0,27.0);
         al.add(1,-40.0);
-        al.add(2,18.0);  
+        al.add(2,18.0);
         al.add(3,-1.0);
-        al.add(4,25.0);  
+        al.add(4,25.0);
         al.add(5,3.0);
-        al.add(6,35.0);  
+        al.add(6,35.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('V', 43.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,-34.0);
-        al.add(2,8.0);  
+        al.add(2,8.0);
         al.add(3,-46.0);
-        al.add(4,14.0);  
+        al.add(4,14.0);
         al.add(5,-36.0);
-        al.add(6,8.0);  
+        al.add(6,8.0);
         al.add(7,-1.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,8.0);  
+        al.add(0,8.0);
         al.add(1,-1.0);
-        al.add(2,13.0);  
+        al.add(2,13.0);
         al.add(3,2.0);
-        al.add(4,30.0);  
+        al.add(4,30.0);
         al.add(5,3.0);
-        al.add(6,25.0);  
+        al.add(6,25.0);
         al.add(7,-40.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,25.0);  
+        al.add(0,25.0);
         al.add(1,-40.0);
-        al.add(2,30.0);  
+        al.add(2,30.0);
         al.add(3,-40.0);
-        al.add(4,30.0);  
+        al.add(4,30.0);
         al.add(5,-40.0);
-        al.add(6,43.0);  
+        al.add(6,43.0);
         al.add(7,-40.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('W', 50.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,-30.0);
-        al.add(2,6.0);  
+        al.add(2,6.0);
         al.add(3,-60.0);
-        al.add(4,5.0);  
+        al.add(4,5.0);
         al.add(5,55.0);
-        al.add(6,22.0);  
+        al.add(6,22.0);
         al.add(7,-40.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,22.0);  
+        al.add(0,22.0);
         al.add(1,-40.0);
-        al.add(2,5.0);  
+        al.add(2,5.0);
         al.add(3,11.0);
-        al.add(4,42.0);  
+        al.add(4,42.0);
         al.add(5,13.0);
-        al.add(6,42.0);  
+        al.add(6,42.0);
         al.add(7,-40.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,40.0);  
+        al.add(0,40.0);
         al.add(1,-40.0);
-        al.add(2,40.0);  
+        al.add(2,40.0);
         al.add(3,-40.0);
-        al.add(4,40.0);  
+        al.add(4,40.0);
         al.add(5,-40.0);
-        al.add(6,50.0);  
+        al.add(6,50.0);
         al.add(7,-40.0);
         coordenadas.put(3,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('X', 35.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,-30.0);
-        al.add(2,11.0);  
+        al.add(2,11.0);
         al.add(3,-40.0);
-        al.add(4,24.0);  
+        al.add(4,24.0);
         al.add(5,6.0);
-        al.add(6,35.0);  
+        al.add(6,35.0);
         al.add(7,0.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,0.0);
-        al.add(2,17.0);  
+        al.add(2,17.0);
         al.add(3,-40.0);
-        al.add(4,34.0);  
+        al.add(4,34.0);
         al.add(5,-36.0);
-        al.add(6,35.0); 
+        al.add(6,35.0);
         al.add(7,-40.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('Y', 34.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,-34.0);
-        al.add(2,10.0);  
+        al.add(2,10.0);
         al.add(3,-64.0);
-        al.add(4,5.0);  
+        al.add(4,5.0);
         al.add(5,53.0);
-        al.add(6,28.0);  
+        al.add(6,28.0);
         al.add(7,-29.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,28.0);  
+        al.add(0,28.0);
         al.add(1,-29.0);
-        al.add(2,10.0);  
+        al.add(2,10.0);
         al.add(3,85.0);
-        al.add(4,-13.0);  
+        al.add(4,-13.0);
         al.add(5,-7.0);
-        al.add(6,34.0);  
+        al.add(6,34.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('Z', 29.0);
         coordenadas = new HashMap<>();
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,-34.0);
-        al.add(2,16.0);  
+        al.add(2,16.0);
         al.add(3,-65.0);
-        al.add(4,-23.0);  
+        al.add(4,-23.0);
         al.add(5,-33.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,-40.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,0.0);
-        al.add(2,1.0);  
+        al.add(2,1.0);
         al.add(3,-12.0);
-        al.add(4,20.0);  
+        al.add(4,20.0);
         al.add(5,-31.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,-40.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,0.0);  
+        al.add(0,0.0);
         al.add(1,0.0);
-        al.add(2,3.0);  
+        al.add(2,3.0);
         al.add(3,-9.0);
-        al.add(4,14.0);  
+        al.add(4,14.0);
         al.add(5,3.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,0.0);
         coordenadas.put(3,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,1.0);  
+        al.add(0,1.0);
         al.add(1,-15.0);
-        al.add(2,10.0);  
+        al.add(2,10.0);
         al.add(3,-22.0);
-        al.add(4,18.0);  
+        al.add(4,18.0);
         al.add(5,-14.0);
-        al.add(6,29.0);  
+        al.add(6,29.0);
         al.add(7,-18.0);
         coordenadas.put(4,al);
-        
+
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('.', 8.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,0.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,0.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,0.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,0.0);
         coordenadas.put(1,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra(',', 8.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,0.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,0.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,0.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,0.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,0.0);
-        al.add(2,3.0);  
+        al.add(2,3.0);
         al.add(3,1.0);
-        al.add(4,3.0);  
+        al.add(4,3.0);
         al.add(5,2.0);
-        al.add(6,2.0);  
+        al.add(6,2.0);
         al.add(7,3.0);
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra(';', 8.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-15.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,-15.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,-15.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,-15.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,0.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,0.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,0.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,0.0);
-        al.add(2,3.0);  
+        al.add(2,3.0);
         al.add(3,1.0);
-        al.add(4,3.0);  
+        al.add(4,3.0);
         al.add(5,2.0);
-        al.add(6,2.0);  
+        al.add(6,2.0);
         al.add(7,3.0);
         coordenadas.put(3,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra(':', 8.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-15.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,-15.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,-15.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,-15.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,0.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,0.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,0.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('"', 12.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-20.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,-20.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,-20.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,-20.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-20.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,-19.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,-18.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,-17.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,8.0);  
+        al.add(0,8.0);
         al.add(1,-20.0);
-        al.add(2,8.0);  
+        al.add(2,8.0);
         al.add(3,-20.0);
-        al.add(4,8.0);  
+        al.add(4,8.0);
         al.add(5,-20.0);
-        al.add(6,8.0);  
+        al.add(6,8.0);
         al.add(7,-20.0);
         coordenadas.put(3,al);
         al=new ArrayList<>();
-        al.add(0,8.0);  
+        al.add(0,8.0);
         al.add(1,-20.0);
-        al.add(2,8.0);  
+        al.add(2,8.0);
         al.add(3,-19.0);
-        al.add(4,8.0);  
+        al.add(4,8.0);
         al.add(5,-18.0);
-        al.add(6,8.0);  
+        al.add(6,8.0);
         al.add(7,-17.0);
         coordenadas.put(4,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('´', 8.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-20.0);
-        al.add(2,4.0);  
+        al.add(2,4.0);
         al.add(3,-20.0);
-        al.add(4,4.0);  
+        al.add(4,4.0);
         al.add(5,-20.0);
-        al.add(6,4.0);  
+        al.add(6,4.0);
         al.add(7,-20.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,4.0);  
+        al.add(0,4.0);
         al.add(1,-20.0);
-        al.add(2,3.0);  
+        al.add(2,3.0);
         al.add(3,-19.0);
-        al.add(4,3.0);  
+        al.add(4,3.0);
         al.add(5,-18.0);
-        al.add(6,2.0);  
+        al.add(6,2.0);
         al.add(7,-17.0);
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('¿', 40.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,30.0);  
+        al.add(0,30.0);
         al.add(1,10.0);
-        al.add(2,0.0);  
+        al.add(2,0.0);
         al.add(3,18.0);
-        al.add(4,1.0);  
+        al.add(4,1.0);
         al.add(5,-20.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,-16.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,30.0);  
+        al.add(0,30.0);
         al.add(1,-28.0);
-        al.add(2,30.0);  
+        al.add(2,30.0);
         al.add(3,-28.0);
-        al.add(4,30.0);  
+        al.add(4,30.0);
         al.add(5,-28.0);
-        al.add(6,30.0);  
+        al.add(6,30.0);
         al.add(7,-16.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,30.0);  
+        al.add(0,30.0);
         al.add(1,-40.0);
-        al.add(2,29.0);  
+        al.add(2,29.0);
         al.add(3,-40.0);
-        al.add(4,32.0);  
+        al.add(4,32.0);
         al.add(5,-40.0);
-        al.add(6,31.0);  
+        al.add(6,31.0);
         al.add(7,-40.0);
         coordenadas.put(3,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('?', 30.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
-        al.add(0,10.0);  
+        al.add(0,10.0);
         al.add(1,-40.0);
-        al.add(2,44.0);  
+        al.add(2,44.0);
         al.add(3,-47.0);
-        al.add(4,41.0);  
+        al.add(4,41.0);
         al.add(5,-6.0);
-        al.add(6,13.0);  
+        al.add(6,13.0);
         al.add(7,-12.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,13.0);  
+        al.add(0,13.0);
         al.add(1,-12.0);
-        al.add(2,13.0);  
+        al.add(2,13.0);
         al.add(3,-12.0);
-        al.add(4,13.0);  
+        al.add(4,13.0);
         al.add(5,-12.0);
-        al.add(6,13.0);  
+        al.add(6,13.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,13.0);  
+        al.add(0,13.0);
         al.add(1,10.0);
-        al.add(2,11.0);  
+        al.add(2,11.0);
         al.add(3,10.0);
-        al.add(4,14.0);  
+        al.add(4,14.0);
         al.add(5,10.0);
-        al.add(6,12.0);  
+        al.add(6,12.0);
         al.add(7,10.0);
         coordenadas.put(3,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-     
-        
+
+
         l = new Letra('!', 16.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2421,20 +2418,20 @@ public class PanelTexto extends JPanel{
         al.add(6,10.0);
         al.add(7,-8.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,10.0);  
+        al.add(0,10.0);
         al.add(1,-3.0);
-        al.add(2,10.0);  
+        al.add(2,10.0);
         al.add(3,-2.0);
-        al.add(4,10.0);  
+        al.add(4,10.0);
         al.add(5,-4.0);
-        al.add(6,10.0);  
+        al.add(6,10.0);
         al.add(7,-3.0);
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('¡', 16.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2447,20 +2444,20 @@ public class PanelTexto extends JPanel{
         al.add(6,10.0);
         al.add(7,0.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
-        al.add(0,10.0);  
+        al.add(0,10.0);
         al.add(1,-24.0);
-        al.add(2,10.0);  
+        al.add(2,10.0);
         al.add(3,-25.0);
-        al.add(4,10.0);  
+        al.add(4,10.0);
         al.add(5,-26.0);
-        al.add(6,10.0);  
+        al.add(6,10.0);
         al.add(7,-24.0);
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('(', 35.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2475,7 +2472,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(1,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra(')', 30.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2490,7 +2487,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(1,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('-', 25.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2505,7 +2502,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(1,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('_', 35.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2520,7 +2517,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(1,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('[', 25.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2533,7 +2530,7 @@ public class PanelTexto extends JPanel{
         al.add(6,15.0);
         al.add(7,-30.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,5.0);
         al.add(1,0.0);
@@ -2544,7 +2541,7 @@ public class PanelTexto extends JPanel{
         al.add(6,15.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,5.0);
         al.add(1,0.0);
@@ -2557,8 +2554,8 @@ public class PanelTexto extends JPanel{
         coordenadas.put(3,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
-        
+
+
         l = new Letra(']', 25.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2571,7 +2568,7 @@ public class PanelTexto extends JPanel{
         al.add(6,15.0);
         al.add(7,-30.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,5.0);
         al.add(1,0.0);
@@ -2582,7 +2579,7 @@ public class PanelTexto extends JPanel{
         al.add(6,15.0);
         al.add(7,0.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,15.0);
         al.add(1,0.0);
@@ -2595,7 +2592,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(3,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('{', 30.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2608,7 +2605,7 @@ public class PanelTexto extends JPanel{
         al.add(6,29.0);
         al.add(7,-40.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,20.0);
         al.add(1,-20.0);
@@ -2621,7 +2618,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('}', 30.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2634,7 +2631,7 @@ public class PanelTexto extends JPanel{
         al.add(6,11.0);
         al.add(7,-40.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,20.0);
         al.add(1,-20.0);
@@ -2647,7 +2644,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(2,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('>', 40.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2660,7 +2657,7 @@ public class PanelTexto extends JPanel{
         al.add(6,5.0);
         al.add(7,-34.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,20.0);
         al.add(1,-20.0);
@@ -2671,7 +2668,7 @@ public class PanelTexto extends JPanel{
         al.add(6,5.0);
         al.add(7,-4.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,25.0);
         al.add(1,-20.0);
@@ -2682,7 +2679,7 @@ public class PanelTexto extends JPanel{
         al.add(6,10.0);
         al.add(7,-34.0);
         coordenadas.put(3,al);
-        
+
         al=new ArrayList<>();
         al.add(0,25.0);
         al.add(1,-20.0);
@@ -2695,7 +2692,7 @@ public class PanelTexto extends JPanel{
         coordenadas.put(4,al);
         l.setCoordenadas(coordenadas);
         this.letras.add(l);
-        
+
         l = new Letra('<', 40.0);
         coordenadas = new HashMap<>();
         al=new ArrayList<>();
@@ -2708,7 +2705,7 @@ public class PanelTexto extends JPanel{
         al.add(6,20.0);
         al.add(7,-34.0);
         coordenadas.put(1,al);
-        
+
         al=new ArrayList<>();
         al.add(0,5.0);
         al.add(1,-20.0);
@@ -2719,7 +2716,7 @@ public class PanelTexto extends JPanel{
         al.add(6,20.0);
         al.add(7,-4.0);
         coordenadas.put(2,al);
-        
+
         al=new ArrayList<>();
         al.add(0,10.0);
         al.add(1,-20.0);
@@ -2730,7 +2727,7 @@ public class PanelTexto extends JPanel{
         al.add(6,25.0);
         al.add(7,-34.0);
         coordenadas.put(3,al);
-        
+
         al=new ArrayList<>();
         al.add(0,10.0);
         al.add(1,-20.0);
@@ -2750,7 +2747,7 @@ public class PanelTexto extends JPanel{
     public String getPalabra() {
         return oracion;
     }
-    
+
     /**
      * @param palabra the oracion to set
      */
@@ -2804,12 +2801,12 @@ public class PanelTexto extends JPanel{
 
     public void setRegex(String regex) {
         this.regex = regex;
-    } 
-    
+    }
+
     public boolean getControl(){
         return this.control;
     }
-    
+
     public void setControl(boolean control){
         this.control=control;
     }
@@ -2821,6 +2818,6 @@ public class PanelTexto extends JPanel{
     public void setInvert(boolean invert) {
         this.invert = invert;
     }
-    
-    
+
+
 }

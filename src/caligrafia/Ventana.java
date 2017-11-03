@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
@@ -28,7 +29,7 @@ public class Ventana extends JFrame{
     private PanelTexto panelTexto;
     private JTextField textoTxt, regexTxt;
     private JPanel herramientasPanel;
-    private JToggleButton puntosControlTggl;
+    private JToggleButton puntosControlTggl, invertirTggl;
     private JScrollPane scroll;
     //private JScrollBar barraSb;
     
@@ -75,11 +76,12 @@ public class Ventana extends JFrame{
         
         this.panelTexto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         //this.herramientasPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        
+        //PANEL NORTE
+        this.invertirTggl = new JToggleButton("Desactivado");
         JPanel panelSuperior= new JPanel();
         panelSuperior.setLayout(new GridLayout(1,4));
         panelSuperior.add(new JLabel("Puntos de Control"));
-        panelSuperior.add(this.puntosControlTggl);panelSuperior.add(new JLabel());panelSuperior.add(new JLabel());        
+        panelSuperior.add(this.puntosControlTggl);panelSuperior.add(new JLabel("Invertir Texto"));panelSuperior.add(this.invertirTggl);        
         
         //ScrollBar
         //this.barraSb = new JScrollBar();
@@ -128,27 +130,25 @@ public class Ventana extends JFrame{
                 actualizarDatos();
             }
         });
-        
-        this.addComponentListener(new ComponentListener(){
+        this.invertirTggl.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if(invertirTggl.getText().equals("Activado")){
+                    invertirTggl.setText("Desactivado");
+                    panelTexto.setInvert(false);
+                }else{
+                    invertirTggl.setText("Activado");
+                    panelTexto.setInvert(true);
+                }
+                actualizarDatos();
+            }
+        });
+        this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent ce) {                
                 actualizarDatos();
             }
-
-            @Override
-            public void componentMoved(ComponentEvent ce) {
-                
-            }
-
-            @Override
-            public void componentShown(ComponentEvent ce) {
-                
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent ce) {
-                
-            }
+        
         });
         this.panelTexto.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
