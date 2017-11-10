@@ -27,7 +27,7 @@ public class PanelTexto extends JPanel{
 
     private String oracion;
     //private Palabra palabra;
-    private ArrayList<Letra> letras;
+    private final ArrayList<Letra> letras;
     private ArrayList<Palabra> palabras;
     //Dos coordenadas para referenciar el punto de incio de una letra.
     private double startx;
@@ -107,6 +107,7 @@ public class PanelTexto extends JPanel{
             //Se setean los estilos.
             if(this.palabras.get(posicion).isSubrayado()){
                 stroke = new BasicStroke(2.0f);
+                g2.setStroke(stroke);
                 if((posicion + incremento) != termino && this.palabras.get(posicion + incremento).isSubrayado()){
                     g2.drawLine((int)this.palabras.get(posicion).getStartx(), (int)this.dy + 5,(int) (this.palabras.get(posicion).getEndx() + (30 * this.palabras.get(posicion).getS())), (int)this.dy + 5);
                 }else{
@@ -198,7 +199,7 @@ public class PanelTexto extends JPanel{
         }
     }
 
-    public void cargarPalabras(){
+    public final void cargarPalabras(){
         this.palabras = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(this.oracion);
         StringTokenizer stRegEx = new StringTokenizer(this.regex, ",");
