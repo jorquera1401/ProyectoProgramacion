@@ -24,9 +24,8 @@ import javax.swing.JPanel;
  * @author mjorquera
  */
 public class PanelTexto extends JPanel{
-
+    //Oracion completa ingresada por el usuario.
     private String oracion;
-    //private Palabra palabra;
     private final ArrayList<Letra> letras;
     private ArrayList<Palabra> palabras;
     //Dos coordenadas para referenciar el punto de incio de una letra.
@@ -44,10 +43,8 @@ public class PanelTexto extends JPanel{
 
     public PanelTexto(){
         this.oracion = "";
-//        this.palabra = new Palabra("");
         this.regex = "";
         this.letras = new ArrayList<>();
-        //this.palabras = new ArrayList<>();
         this.s = 1.0;
         this.startx = 10 ;
         this.starty = 65 * this.s;
@@ -55,19 +52,19 @@ public class PanelTexto extends JPanel{
         this.dy = 65 * this.s;
         this.invert = false;
         this.cargarLetras();
-        this.cargarPalabras();
+        
     }
 
     @Override
     public void paint(Graphics g){
         g.setColor(Color.red);
         Graphics2D g2 = (Graphics2D) g;
-        BasicStroke stroke = new BasicStroke(2.0f);
-
+        BasicStroke stroke = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
         g2.setStroke(stroke);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         CubicCurve2D c = new CubicCurve2D.Double();
+        this.cargarPalabras();
         
         int incremento;
         int posicion;
@@ -103,7 +100,6 @@ public class PanelTexto extends JPanel{
             else if(this.dy > this.getHeight()){
                 this.setPreferredSize(new Dimension((int)this.getWidth(), (int) (this.getHeight()+(65 * this.palabras.get(posicion).getS()))));
             }
-
             //Se setean los estilos.
             if(this.palabras.get(posicion).isSubrayado()){
                 stroke = new BasicStroke(2.0f);
@@ -132,44 +128,36 @@ public class PanelTexto extends JPanel{
                         Set<Integer> keys = this.letras.get(j).getCoordenadas().keySet();
                         Iterator<Integer> it = keys.iterator();
                         ArrayList<Double> al = new ArrayList<>();
+                        double inclinacion;
+                        if(this.palabras.get(posicion).isCursiva()){
+                            inclinacion = 0.5;
+                        }else {
+                            inclinacion = 0;                                        
+                        }
                         if(j < 27){
                             al = this.letras.get(j).getCoordenadas().get(it.next());
-                            if(this.palabras.get(posicion).isCursiva()){
-                                c.setCurve((this.startx+al.get(0)*this.palabras.get(posicion).getS())-0.5*(this.starty+al.get(1)*this.palabras.get(posicion).getS()), this.starty+al.get(1)*this.palabras.get(posicion).getS(),
-                                            (this.dx+al.get(2)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(3)*this.palabras.get(posicion).getS()), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
-                                            (this.dx+al.get(4)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(5)*this.palabras.get(posicion).getS()), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
-                                            (this.dx+al.get(6)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(7)*this.palabras.get(posicion).getS()), this.dy+al.get(7)*this.palabras.get(posicion).getS());
-                            }else{
-                                c.setCurve(this.startx+al.get(0)*this.palabras.get(posicion).getS(), this.starty+al.get(1)*this.palabras.get(posicion).getS(),
-                                            this.dx+al.get(2)*this.palabras.get(posicion).getS(), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
-                                            this.dx+al.get(4)*this.palabras.get(posicion).getS(), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
-                                            this.dx+al.get(6)*this.palabras.get(posicion).getS(), this.dy+al.get(7)*this.palabras.get(posicion).getS());
-                            }
+                            c.setCurve(this.startx+al.get(0)*this.palabras.get(posicion).getS() - inclinacion*(this.starty+al.get(1)*this.palabras.get(posicion).getS()), this.starty+al.get(1)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(2)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(3)*this.palabras.get(posicion).getS()), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(4)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(5)*this.palabras.get(posicion).getS()), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(6)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(7)*this.palabras.get(posicion).getS()), this.dy+al.get(7)*this.palabras.get(posicion).getS());
                             g2.draw(c);
-                        //se activa cuando se presiona el boton de los puntos de control
-                        if(control){
-                            g2.setColor(Color.blue);
-                            g2.fillOval((int)c.getX1(),(int)c.getY1(),5,5);
-                            g2.fillOval((int)c.getX2(),(int)c.getY2(),5,5);
-                            g2.fillOval((int)c.getCtrlX1(),(int)c.getCtrlY1(),5,5);
-                            g2.fillOval((int)c.getCtrlX2(),(int)c.getCtrlY2(),5,5);
-                            g2.setColor(Color.red);}
+                            //se activa cuando se presiona el boton de los puntos de control
+                            if(control){
+                                g2.setColor(Color.blue);
+                                g2.fillOval((int)c.getX1(),(int)c.getY1(),5,5);
+                                g2.fillOval((int)c.getX2(),(int)c.getY2(),5,5);
+                                g2.fillOval((int)c.getCtrlX1(),(int)c.getCtrlY1(),5,5);
+                                g2.fillOval((int)c.getCtrlX2(),(int)c.getCtrlY2(),5,5);
+                                g2.setColor(Color.red);
+                            }
                         }
                         while(it.hasNext()){
-                            al = this.letras.get(j).getCoordenadas().get(it.next());
-                            if(this.palabras.get(posicion).isCursiva()){
-                                c.setCurve((this.dx+al.get(0)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(1)*this.palabras.get(posicion).getS()), this.dy+al.get(1)*this.palabras.get(posicion).getS(),
-                                            (this.dx+al.get(2)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(3)*this.palabras.get(posicion).getS()), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
-                                            (this.dx+al.get(4)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(5)*this.palabras.get(posicion).getS()), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
-                                            (this.dx+al.get(6)*this.palabras.get(posicion).getS())-0.5*(this.dy+al.get(7)*this.palabras.get(posicion).getS()), this.dy+al.get(7)*this.palabras.get(posicion).getS());
-                            }else{
-                                c.setCurve(this.dx+al.get(0)*this.palabras.get(posicion).getS(), this.dy+al.get(1)*this.palabras.get(posicion).getS(),
-                                        this.dx+al.get(2)*this.palabras.get(posicion).getS(), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
-                                        this.dx+al.get(4)*this.palabras.get(posicion).getS(), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
-                                        this.dx+al.get(6)*this.palabras.get(posicion).getS(), this.dy+al.get(7)*this.palabras.get(posicion).getS());
-                            }
+                            al = this.letras.get(j).getCoordenadas().get(it.next());                                                        
+                            c.setCurve(this.dx+al.get(0)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(1)*this.palabras.get(posicion).getS()), this.dy+al.get(1)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(2)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(3)*this.palabras.get(posicion).getS()), this.dy+al.get(3)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(4)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(5)*this.palabras.get(posicion).getS()), this.dy+al.get(5)*this.palabras.get(posicion).getS(),
+                                        this.dx+al.get(6)*this.palabras.get(posicion).getS() - inclinacion*(this.dy+al.get(7)*this.palabras.get(posicion).getS()), this.dy+al.get(7)*this.palabras.get(posicion).getS());
                             g2.draw(c);
-
                             if(control){
                                 g2.setColor(Color.blue);
                                 g2.fillOval((int)c.getX1(),(int)c.getY1(),5,5);
@@ -185,8 +173,7 @@ public class PanelTexto extends JPanel{
 
                         if(j < 27){
                             this.starty = this.dy + al.get(7) * this.palabras.get(posicion).getS();
-                        }
-                        else{
+                        }else{
                             this.starty = this.dy;
                         }
                     }
@@ -210,45 +197,48 @@ public class PanelTexto extends JPanel{
             if(stRegEx.hasMoreTokens()){
                 String next = stRegEx.nextToken();
                 for(int i = 0; i < next.length(); i++){
-                    if(next.charAt(i) == 'S'){
-                        p.setSubrayado(true);
-                    }
-                    else if(next.charAt(i) == 'N'){
-                        p.setNegrita(true);
-                    }
-                    else if(next.charAt(i) == 'K'){
-                        p.setCursiva(true);
-                    }
-                    else if(next.charAt(i) == '1'){
-                        p.setS(1.0);
-                    }
-                    else if(next.charAt(i) == '2'){
-                        p.setS(1.5);
-                    }
-                    else if(next.charAt(i) == '3'){
-                        p.setS(2.0);
-                    }
-                    else if(next.charAt(i) == '4'){
-                        p.setS(2.5);
-                    }
-                    else if(next.charAt(i) == '5'){
-                        p.setS(3.0);
-                    }
-                    else if(next.charAt(i) == '6'){
-                        p.setS(3.5);
-                    }
-                    else if(next.charAt(i) == '7'){
-                        p.setS(4.0);
-                    }
-                    else if(next.charAt(i) == '8'){
-                        p.setS(4.5);
-                    }
-                    else if(next.charAt(i) == '9'){
-                        p.setS(5.0);
+                    switch (next.charAt(i)) {
+                        case 'S':
+                            p.setSubrayado(true);
+                            break;
+                        case 'N':
+                            p.setNegrita(true);
+                            break;
+                        case 'K':
+                            p.setCursiva(true);
+                            break;
+                        case '1':
+                            p.setS(1.0);
+                            break;
+                        case '2':
+                            p.setS(1.5);
+                            break;
+                        case '3':
+                            p.setS(2.0);
+                            break;
+                        case '4':
+                            p.setS(2.5);
+                            break;
+                        case '5':
+                            p.setS(3.0);
+                            break;
+                        case '6':
+                            p.setS(3.5);
+                            break;
+                        case '7':
+                            p.setS(4.0);
+                            break;
+                        case '8':
+                            p.setS(4.5);
+                            break;
+                        case '9':
+                            p.setS(5.0);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
-
             double anchoPalabra = 0;
             for(int i = 0; i < p.getString().length(); i++){
                 for(int j = 0; j < this.letras.size(); j++){
@@ -434,14 +424,14 @@ public class PanelTexto extends JPanel{
         al.add(4, 15.0);
         al.add(5, 0.0);
         al.add(6, 25.0);
-        al.add(7, -14.0);
+        al.add(7, -10.0);
         coordenadas.put(1, al);
 
         al = new ArrayList<>();
         al.add(0, 25.0);
-        al.add(1, -14.0);
+        al.add(1, -10.0);
         al.add(2, 5.0);
-        al.add(3, -50.0);
+        al.add(3, -25.0);
         al.add(4, 5.0);
         al.add(5, 0.0);
         al.add(6, 25.0);
